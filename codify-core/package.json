@@ -1,0 +1,73 @@
+{
+  "author": "kevinwang @kevinwang5658",
+  "bin": {
+    "codify": "./bin/run.js"
+  },
+  "dependencies": {
+    "@oclif/core": "^3",
+    "@oclif/plugin-help": "^5",
+    "@oclif/plugin-plugins": "^3.8.4",
+    "eslint-config-prettier": "^9.0.0"
+  },
+  "description": "Codify is a set up as code tool for developers",
+  "devDependencies": {
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^3",
+    "@types/chai": "^4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^18",
+    "chai": "^4",
+    "eslint": "^8.51.0",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "mocha": "^10",
+    "oclif": "^3.17.2",
+    "shx": "^0.3.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/kevinwang5658/codify",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "codify",
+  "oclif": {
+    "bin": "codify",
+    "dirname": "codify",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    }
+  },
+  "repository": "kevinwang5658/codify",
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "npm run lint",
+    "prepack": "npm run build && oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  },
+  "version": "0.0.0",
+  "bugs": "https://github.com/kevinwang5658/codify/issues",
+  "keywords": [
+    "oclif"
+  ],
+  "types": "dist/index.d.ts"
+}
