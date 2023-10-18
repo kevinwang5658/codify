@@ -18,7 +18,7 @@ $ npm install -g codify
 $ codify COMMAND
 running command...
 $ codify (--version)
-codify/0.0.0 darwin-arm64 node-v18.18.0
+codify/0.0.0 darwin-arm64 node-v18.15.0
 $ codify --help [COMMAND]
 USAGE
   $ codify COMMAND
@@ -27,9 +27,11 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`codify apply [FILE]`](#codify-apply-file)
 * [`codify hello PERSON`](#codify-hello-person)
 * [`codify hello world`](#codify-hello-world)
 * [`codify help [COMMANDS]`](#codify-help-commands)
+* [`codify plan [FILE]`](#codify-plan-file)
 * [`codify plugins`](#codify-plugins)
 * [`codify plugins:install PLUGIN...`](#codify-pluginsinstall-plugin)
 * [`codify plugins:inspect PLUGIN...`](#codify-pluginsinspect-plugin)
@@ -39,6 +41,30 @@ USAGE
 * [`codify plugins:uninstall PLUGIN...`](#codify-pluginsuninstall-plugin-1)
 * [`codify plugins:uninstall PLUGIN...`](#codify-pluginsuninstall-plugin-2)
 * [`codify plugins update`](#codify-plugins-update)
+
+## `codify apply [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ codify apply [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ codify apply
+```
+
+_See code: [src/commands/apply.ts](https://github.com/kevinwang5658/codify/blob/v0.0.0/src/commands/apply.ts)_
 
 ## `codify hello PERSON`
 
@@ -101,6 +127,30 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.20/src/commands/help.ts)_
+
+## `codify plan [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ codify plan [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ codify plan
+```
+
+_See code: [src/commands/plan.ts](https://github.com/kevinwang5658/codify/blob/v0.0.0/src/commands/plan.ts)_
 
 ## `codify plugins`
 

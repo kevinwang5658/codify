@@ -1,3 +1,6 @@
 {
-  "extends": ["oclif", "oclif-typescript", "prettier"]
+  "extends": ["oclif", "oclif-typescript", "prettier"],
+  "rules": {
+    "object-curly-spacing": ["warn", "always"]
+  }
 }
