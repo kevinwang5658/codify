@@ -66,7 +66,8 @@
     "posttest": "npm run lint",
     "prepack": "npm run build && oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "version": "oclif readme && git add README.md",
+    "start:dev": "node ./bin/run.js"
   },
   "version": "0.0.0",
   "bugs": "https://github.com/kevinwang5658/codify/issues",
