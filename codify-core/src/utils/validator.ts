@@ -5,6 +5,7 @@ import { valid as semverValid } from 'semver';
 //******************
 
 const urlRegex = /[\w#%+.:=@~-]{1,256}\.[\d()a-z]{1,6}\b([\w#%&()+./:=?@~-]*)/gi;
+const nameRegex = /^[$_a-z][\w$]*$/gi;
 
 //*****************
 // Validators
@@ -34,6 +35,10 @@ export function validateTypeRecordStringString(actual: unknown): actual is Recor
 
 export function validateStringEq(actual: unknown, expected: string): actual is string {
   return actual === expected;
+}
+
+export function validateNameString(actual: unknown): actual is string {
+  return validateTypeString(actual) && actual.match(nameRegex) !== null;
 }
 
 export function validateUrl(actual: unknown): actual is string {

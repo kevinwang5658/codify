@@ -60,6 +60,21 @@ describe('Parser: project entity tests', () => {
       name: 'test-project',
       type: 'project',
     })).to.not.throw;
+
+    expect(() => new ProjectConfig({
+      name: '1',
+      type: 'project',
+    })).to.throw;
+
+    expect(() => new ProjectConfig({
+      name: '##ab',
+      type: 'project',
+    })).to.throw;
+
+    expect(() => new ProjectConfig({
+      name: 'abc12',
+      type: 'project',
+    })).to.not.throw;
   })
 
   it('plugin versions must be semvers', () => {

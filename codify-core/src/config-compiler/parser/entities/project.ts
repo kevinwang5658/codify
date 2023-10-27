@@ -1,6 +1,7 @@
 import { RemoveMethods } from '../../../utils/types';
 import {
   validateAllowedObjectKeys,
+  validateNameString,
   validateSemver,
   validateStringEq,
   validateTypeRecordStringString,
@@ -53,8 +54,8 @@ export class ProjectConfig implements ConfigBlock {
       throw new Error('Config is not of type project');
     }
 
-    if (config.name && !validateTypeString(config.name)) {
-      throw new Error('Name is not of type string');
+    if (config.name && !validateNameString(config.name)) {
+      throw new Error('Name must be of type string, start with a letter, and only contain [a-z][0-9]_-');
     }
 
     if (config.plugins && !validateTypeRecordStringString) {
