@@ -35,7 +35,7 @@ export const JsonConfigBlockFactory = {
       }
 
       case ConfigBlockType.PROJECT: {
-        return ProjectConfig.create(unknownNode.plugins);
+        return new ProjectConfig(unknownNode);
       }
 
       default: {

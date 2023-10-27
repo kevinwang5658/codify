@@ -10,4 +10,8 @@ export class PluginConfig implements ConfigBlock {
     Object.assign(this, props)
   }
 
+  validate(config: unknown): void {
+    console.log(config);
+  }
+
 }

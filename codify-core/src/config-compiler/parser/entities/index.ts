@@ -9,6 +9,8 @@ export enum ConfigBlockType {
 
 export interface ConfigBlock {
   configType: ConfigBlockType;
+
+  validate(config: unknown): never | void;
 }
 
 export class ParsedProject {
