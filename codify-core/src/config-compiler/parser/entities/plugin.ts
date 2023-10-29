@@ -1,5 +1,6 @@
 import { RemoveMethods } from '../../../utils/types'
-import { ConfigBlock, ConfigBlockType } from './index';
+import { ConfigBlockType } from '../../language-definition';
+import { ConfigBlock } from './index';
 
 export class PluginConfig implements ConfigBlock {
   configType = ConfigBlockType.PLUGIN;

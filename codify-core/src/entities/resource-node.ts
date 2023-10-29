@@ -1,12 +1,12 @@
 import { RemoveMethods } from '../utils/types';
 import { Node } from './node';
-import { ResourceParameter } from './resource-parameter';
+import { ResourceParameterDefinition } from './resource-parameter';
 
 export class ResourceNode implements Node {
   type!: string;
   name!: string;
   metadata?: Record<string, unknown>;
-  parameters!: ResourceParameter[];
+  parameters!: ResourceParameterDefinition[];
   dependencies!: Node[];
 
   constructor(props: RemoveMethods<ResourceNode>) {

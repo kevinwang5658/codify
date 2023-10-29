@@ -1,11 +1,6 @@
 import { RemoveMethods } from '../../../utils/types';
+import { ConfigBlockType } from '../../language-definition';
 import { ProjectConfig } from './project';
-
-export enum ConfigBlockType {
-  PLUGIN = 'plugin',
-  PROJECT = 'project',
-  RESOURCE = 'resource',
-}
 
 export interface ConfigBlock {
   configType: ConfigBlockType;

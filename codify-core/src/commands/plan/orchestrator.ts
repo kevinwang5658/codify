@@ -1,9 +1,13 @@
 import { ConfigCompiler } from '../../config-compiler';
+import { PluginsManager } from '../../plugins/manager';
 
 export const PlanOrchestrator = {
   async run(rootDirectory: string): Promise<void> {
-    const loadedProject = await ConfigCompiler.compileProject(rootDirectory);
+    const project = await ConfigCompiler.parseProject(rootDirectory);
 
-    console.log(JSON.stringify(loadedProject, null, 2));
+    const pluginsManager = new PluginsManager();
+    await pluginsManager.initializePlugins(project);
+
+
   },
 };

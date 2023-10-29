@@ -1,5 +1,7 @@
 import { valid as semverValid } from 'semver';
 
+import { ResourceParameterType } from '../config-compiler/language-definition';
+
 //******************
 // Regex
 //******************
@@ -13,6 +15,14 @@ const nameRegex = /^[$_a-z][\w$]*$/gi;
 
 export function validateTypeString(actual: unknown): actual is string {
   return typeof actual === 'string';
+}
+
+export function validateTypeArray(actual: unknown): actual is [] {
+  return Array.isArray(actual);
+}
+
+export function validateTypeNumber(actual: unknown): actual is number {
+  return typeof actual === 'number';
 }
 
 export function validateTypeRecordStringUnknown(actual: unknown): actual is Record<string, unknown> | never {
@@ -31,6 +41,10 @@ export function validateTypeRecordStringString(actual: unknown): actual is Recor
   }
 
   return true;
+}
+
+export function validateTypeResourceParameterType(actual: unknown): actual is ResourceParameterType {
+  return validateTypeString(actual) && Object.values(ResourceParameterType).includes(actual as ResourceParameterType);
 }
 
 export function validateStringEq(actual: unknown, expected: string): actual is string {

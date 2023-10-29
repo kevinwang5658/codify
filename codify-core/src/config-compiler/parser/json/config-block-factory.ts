@@ -1,5 +1,6 @@
 import { InvalidResourceError, SyntaxError } from '../../../utils/errors';
-import { ConfigBlock, ConfigBlockType } from '../entities';
+import { ConfigBlockType } from '../../language-definition';
+import { ConfigBlock } from '../entities';
 import { PluginConfig } from '../entities/plugin';
 import { ProjectConfig } from '../entities/project';
 import { ResourceConfig } from '../entities/resource';

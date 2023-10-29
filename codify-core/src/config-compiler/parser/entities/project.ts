@@ -9,7 +9,8 @@ import {
   validateTypeString,
   validateUrl
 } from '../../../utils/validator';
-import { ConfigBlock, ConfigBlockType } from './index';
+import { ConfigBlockType } from '../../language-definition';
+import { ConfigBlock } from './index';
 
 /** Project JSON supported format
  * {

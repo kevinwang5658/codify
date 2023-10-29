@@ -1,6 +1,7 @@
 import { RemoveMethods } from '../../../utils/types';
 import { validateNameString, validateStringEq, validateTypeRecordStringUnknown, } from '../../../utils/validator';
-import { ConfigBlock, ConfigBlockType } from './index';
+import { ConfigBlockType } from '../../language-definition';
+import { ConfigBlock } from './index';
 
 /** Resource JSON supported format
  * {

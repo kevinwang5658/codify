@@ -1,8 +1,9 @@
 import { InternalError } from '../utils/errors';
+import { ConfigBlockType } from './language-definition';
 import { ConfigLoader } from './loader';
-import { LoadedProject } from './loader/entities/project';
 import { FileParser } from './parser';
-import { ConfigBlockType, ParsedModule, ParsedProject } from './parser/entities';
+import { ParsedModule, ParsedProject } from './parser/entities';
+import { ProjectConfig } from './parser/entities/project';
 import { JsonFileParser } from './parser/json/file-parser';
 
 
@@ -12,17 +13,10 @@ export class ConfigCompiler {
     'json': new JsonFileParser(),
   }
 
-  static async compileProject(directory: string): Promise<ParsedProject> {
-    const loadedProject = await ConfigCompiler.load(directory);
-    return ConfigCompiler.parse(loadedProject);
-  }
+  static async parseProject(directory: string): Promise<ParsedProject> {
+    const loadedProject = await (new ConfigLoader().loadProject(directory));
 
-  private static load(directory: string): Promise<LoadedProject> {
-    return new ConfigLoader().loadProject(directory);
-  }
-
-  private static async parse(loadedProject: LoadedProject): Promise<ParsedProject> {
-    const configBlocks = await Promise.all(loadedProject.coreModule.files.map((file) => {
+    const configBlocksResult = await Promise.all(loadedProject.coreModule.files.map((file) => {
       const parser = ConfigCompiler.supportedParsers[file.fileType];
       if (!parser) {
         throw new InternalError(`Unsupported file format loaded into parser: ${file.fileName}`);
@@ -30,12 +24,19 @@ export class ConfigCompiler {
 
       return parser.parse(file);
     }));
+    const configBlocks = configBlocksResult.flat(1);
 
+    const parsedProjectConfigs = configBlocks.filter((u) => u.configType === ConfigBlockType.PROJECT);
+    if (parsedProjectConfigs.length !== 1) {
+      throw new Error('One one project config can be specified');
+    }
+
+    const projectConfig = parsedProjectConfigs[0] as ProjectConfig;
     return new ParsedProject({
       coreModule: new ParsedModule({
         configBlocks: configBlocks.flat(1),
       }),
-      projectConfig: configBlocks.flat(1).find((u) => u.configType === ConfigBlockType.PROJECT)!,
+      projectConfig,
     })
   }
 }
