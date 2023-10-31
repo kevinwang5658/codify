@@ -3,7 +3,7 @@ import * as fs from 'node:fs/promises';
 import { Plugin } from './entities/plugin';
 import { PluginIpcBridge } from './ipc-bridge';
 
-const DEFAULT_PLUGIN_REGEX = /^default:(.*)/gi
+const DEFAULT_PLUGIN_REGEX = /(?<=default:).*$/g
 
 export class PluginResolver {
 
@@ -20,13 +20,13 @@ export class PluginResolver {
   private async resolveDefaultPlugin(name: string, _version: string): Promise<Plugin> {
     const pluginName = name.match(DEFAULT_PLUGIN_REGEX)![0]
 
-    const defaultPluginDir = '../../../';
-    const pluginDirFiles = await fs.readdir('../../../');
+    const defaultPluginDir = '../plugins';
+    const pluginDirFiles = await fs.readdir(defaultPluginDir);
     if (!pluginDirFiles.includes(pluginName)) {
       throw new Error(`Unable to find default plugin: ${name}`)
     }
 
-    return PluginIpcBridge.initializePlugin(defaultPluginDir, name);
+    return PluginIpcBridge.initializePlugin(defaultPluginDir, pluginName);
   }
 
 }

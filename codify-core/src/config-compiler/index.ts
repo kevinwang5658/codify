@@ -6,7 +6,6 @@ import { ParsedModule, ParsedProject } from './parser/entities';
 import { ProjectConfig } from './parser/entities/project';
 import { JsonFileParser } from './parser/json/file-parser';
 
-
 export class ConfigCompiler {
 
   static readonly supportedParsers: Record<string, FileParser> = {
@@ -34,7 +33,7 @@ export class ConfigCompiler {
     const projectConfig = parsedProjectConfigs[0] as ProjectConfig;
     return new ParsedProject({
       coreModule: new ParsedModule({
-        configBlocks: configBlocks.flat(1),
+        configBlocks: configBlocks.filter((u) => u.configType !== ConfigBlockType.PROJECT),
       }),
       projectConfig,
     })

@@ -32,6 +32,8 @@ export class ResourceConfig implements ConfigBlock {
       this.type = type;
       this.name = name;
       this.parameters = params ?? {};
+
+      return;
     }
 
     throw new Error('Unable to parse resource config');
@@ -42,8 +44,8 @@ export class ResourceConfig implements ConfigBlock {
       throw new Error('Config is not an object');
     }
 
-    if (!validateStringEq(config.type, 'project')) {
-      throw new Error('Config is not of type project');
+    if (!validateStringEq(config.type, 'resource')) {
+      throw new Error('Config is not of type resource');
     }
 
     if (config.name && !validateNameString(config.name)) {

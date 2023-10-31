@@ -1,0 +1,6 @@
+{
+  "name": "homebrew_installation",
+  "parameters": {
+    "directory": "string"
+  }
+}

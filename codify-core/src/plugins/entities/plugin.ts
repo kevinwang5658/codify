@@ -6,13 +6,15 @@ import { validateTypeArray, validateTypeRecordStringUnknown } from '../../utils/
 type ResourceName = string;
 
 export class Plugin {
+
+  // Plugin names should be globally unique
   name: string;
   directory: string;
 
   process: ChildProcess;
   resourceDefinitions?: Map<ResourceName, ResourceDefinition>;
 
-  constructor(name: string, directory: string, process: ChildProcess) {
+  constructor(directory: string, name: string, process: ChildProcess) {
     this.name = name;
     this.directory = directory;
     this.process = process;
@@ -22,10 +24,13 @@ export class Plugin {
     if (this.validate(definitions)) {
       const entries = definitions.map((u) => {
         const resourceDefinition = ResourceDefinition.fromJson(u);
-        return [resourceDefinition.name, resourceDefinition] as const;
+
+        // Append the plugin name to all resources to prevent conflicts across plugins
+        return [`${this.name}_${resourceDefinition.name}`, resourceDefinition] as const;
       })
 
       this.resourceDefinitions = new Map(entries);
+      return;
     }
 
     throw new Error('Unable to parse resource definition');
@@ -33,11 +38,11 @@ export class Plugin {
 
   private validate(definitions: unknown): definitions is Array<Record<string, unknown>> {
     if (!validateTypeArray(definitions)) {
-      return false;
+      throw new Error('Definitions is not of type array')
     }
 
     if (!definitions.every((u) => validateTypeRecordStringUnknown(u))) {
-      return false;
+      throw new Error('Type definitions is not of Record<string, unknown>')
     }
 
     return true;

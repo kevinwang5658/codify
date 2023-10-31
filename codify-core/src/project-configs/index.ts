@@ -1,4 +1,4 @@
 export const config = {
-  defaultPluginEntryPoint: '/index.js'
-
+  defaultPluginEntryPoint: '/src/index.ts',
+  supportedPluginExt: ['js$', 'ts$']
 }

@@ -39,7 +39,11 @@ export class ProjectConfig implements ConfigBlock {
     if (this.validate(config)) {
       this.name = config.name;
       this.plugins = config.plugins;
+
+      return;
     }
+
+    throw new Error('Unable to parse project');
   }
 
   validate(config: unknown): config is RemoveMethods<ProjectConfig> {

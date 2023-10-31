@@ -1,0 +1,21 @@
+{
+  "name": "homebrew",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "ts-node": "^10.9.1",
+    "typescript": "^5",
+    "eslint": "^8.51.0",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
