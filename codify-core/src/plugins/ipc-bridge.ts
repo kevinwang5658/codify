@@ -6,27 +6,35 @@ import { PluginMessage } from './entities/message';
 
 export class PluginIpcBridge {
 
-  async createProcess(directory: string, name: string): Promise<ChildProcess> {
-    return fork(
+  process: ChildProcess;
+
+  constructor(process: ChildProcess) {
+    this.process = process;
+  }
+
+  static async create(directory: string, name: string): Promise<PluginIpcBridge> {
+    const process = await fork(
       directory + '/' + name + config.defaultPluginEntryPoint,
       [],
       { execArgv: ['-r', 'ts-node/register'], silent: true },
     );
+
+    return new PluginIpcBridge(process);
   }
 
-  killPlugin(process: ChildProcess): void {
-    process.kill();
+  killPlugin(): void {
+    this.process.kill();
   }
 
-  async sendMessageForResult(process: ChildProcess, message: PluginMessage): Promise<unknown> {
+  async sendMessageForResult(message: PluginMessage): Promise<unknown> {
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
-        process.kill();
+        this.process.kill();
         reject(new Error(`Plugin did not respond in 10s to call: ${message.cmd}`))
       }, 10_000);
 
       const errorListener = (error: Buffer) => {
-        process.kill();
+        this.process.kill();
         reject(error.toString());
       }
 
@@ -39,20 +47,20 @@ export class PluginIpcBridge {
 
         if (incomingMessage.cmd === this.getResultFunctionName(message.cmd)) {
           clearTimeout(timer);
-          process.removeListener('message', messageListener);
-          process.removeListener('error', errorListener);
+          this.process.removeListener('message', messageListener);
+          this.process.removeListener('error', errorListener);
           resolve(incomingMessage.data);
         }
       };
 
-      process.on('message', messageListener);
-      process.stderr!.on('data', errorListener);
-      process.send(message);
+      this.process.on('message', messageListener);
+      this.process.stderr!.on('data', errorListener);
+      this.process.send(message);
     });
   }
 
-  sendMessage(process: ChildProcess, message: PluginMessage): void {
-    process.send(message);
+  sendMessage(message: PluginMessage): void {
+    this.process.send(message);
   }
 
   private getResultFunctionName(rpcFunctionName: string): string {
