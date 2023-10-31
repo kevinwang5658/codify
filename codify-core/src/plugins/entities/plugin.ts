@@ -1,50 +1,30 @@
 import type { ChildProcess } from 'node:child_process';
 
-import { ResourceDefinition } from '../../entities/resource-definition';
-import { validateTypeArray, validateTypeRecordStringUnknown } from '../../utils/validator';
-
-type ResourceName = string;
+import { PluginIpcBridge } from '../ipc-bridge';
+import { PluginData } from './plugin-data';
 
 export class Plugin {
 
-  // Plugin names should be globally unique
-  name: string;
-  directory: string;
-
   process: ChildProcess;
-  resourceDefinitions?: Map<ResourceName, ResourceDefinition>;
+  ipcBridge: PluginIpcBridge;
 
-  constructor(directory: string, name: string, process: ChildProcess) {
-    this.name = name;
-    this.directory = directory;
+  // Separate out data so that the validation logic is testable.
+  data: PluginData;
+
+  constructor(data: PluginData, process: ChildProcess, ipcBridge: PluginIpcBridge = new PluginIpcBridge()) {
     this.process = process;
+    this.ipcBridge = ipcBridge;
+    this.data = data;
   }
 
-  setResourceDefinitions(definitions: unknown): void {
-    if (this.validate(definitions)) {
-      const entries = definitions.map((u) => {
-        const resourceDefinition = ResourceDefinition.fromJson(u);
+  static async create(directory: string, name: string, ipcBridge: PluginIpcBridge = new PluginIpcBridge()): Promise<Plugin> {
+    const process = await ipcBridge.createProcess(directory, name);
+    const resourceDefinitions = await ipcBridge.sendMessageForResult(process, { cmd: 'getResourceDefinitions' });
 
-        // Append the plugin name to all resources to prevent conflicts across plugins
-        return [`${this.name}_${resourceDefinition.name}`, resourceDefinition] as const;
-      })
-
-      this.resourceDefinitions = new Map(entries);
-      return;
-    }
-
-    throw new Error('Unable to parse resource definition');
+    return new Plugin(PluginData.create(directory, name, resourceDefinitions), process);
   }
 
-  private validate(definitions: unknown): definitions is Array<Record<string, unknown>> {
-    if (!validateTypeArray(definitions)) {
-      throw new Error('Definitions is not of type array')
-    }
-
-    if (!definitions.every((u) => validateTypeRecordStringUnknown(u))) {
-      throw new Error('Type definitions is not of Record<string, unknown>')
-    }
-
-    return true;
+  destroy() {
+    this.ipcBridge.killPlugin(this.process);
   }
 }

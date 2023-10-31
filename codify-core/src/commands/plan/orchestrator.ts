@@ -11,6 +11,6 @@ export const PlanOrchestrator = {
     const resourceDefinitions = await pluginCollection.getAllResourceDefinitions();
     console.log(resourceDefinitions);
 
-    await pluginCollection.killPlugins();
+    await pluginCollection.destroy();
   },
 };

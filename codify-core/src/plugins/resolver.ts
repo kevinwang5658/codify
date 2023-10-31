@@ -1,13 +1,12 @@
 import * as fs from 'node:fs/promises';
 
 import { Plugin } from './entities/plugin';
-import { PluginIpcBridge } from './ipc-bridge';
 
 const DEFAULT_PLUGIN_REGEX = /(?<=default:).*$/g
 
 export class PluginResolver {
 
-  async resolve(name: string, version: string): Promise<Plugin> {
+  static async resolve(name: string, version: string): Promise<Plugin> {
 
     if (DEFAULT_PLUGIN_REGEX.test(name)) {
       return this.resolveDefaultPlugin(name, version)
@@ -17,7 +16,7 @@ export class PluginResolver {
   }
 
   // TODO: update this method to resolve default plugins from github in the future.
-  private async resolveDefaultPlugin(name: string, _version: string): Promise<Plugin> {
+  private static async resolveDefaultPlugin(name: string, _version: string): Promise<Plugin> {
     const pluginName = name.match(DEFAULT_PLUGIN_REGEX)![0]
 
     const defaultPluginDir = '../plugins';
@@ -26,7 +25,7 @@ export class PluginResolver {
       throw new Error(`Unable to find default plugin: ${name}`)
     }
 
-    return PluginIpcBridge.initializePlugin(defaultPluginDir, pluginName);
+    return Plugin.create(defaultPluginDir, pluginName);
   }
 
 }

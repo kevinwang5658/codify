@@ -1,7 +1,6 @@
 import { ParsedProject } from '../config-compiler/parser/entities';
 import { ResourceDefinition } from '../entities/resource-definition';
 import { Plugin } from './entities/plugin';
-import { PluginIpcBridge } from './ipc-bridge';
 import { PluginResolver } from './resolver';
 
 type PluginName = string;
@@ -21,20 +20,19 @@ export class PluginCollection {
       ...project.projectConfig.plugins,
     };
 
-    const pluginResolver = new PluginResolver();
     const plugins = await Promise.all(Object.entries(pluginDefinitions).map(([name, version]) =>
-      pluginResolver.resolve(name, version)
+      PluginResolver.resolve(name, version)
     ));
 
-    for (const u of plugins) {
-      this.plugins.set(u.name, u);
+    for (const plugin of plugins) {
+      this.plugins.set(plugin.data.name, plugin);
     }
   }
 
   async getAllResourceDefinitions(): Promise<Map<string, ResourceDefinition>> {
     const result = new Map<string, ResourceDefinition>();
     for (const plugin of this.plugins.values()) {
-      const { resourceDefinitions } = plugin;
+      const { resourceDefinitions } = plugin.data;
       if (!resourceDefinitions) {
         continue;
       }
@@ -54,9 +52,9 @@ export class PluginCollection {
     return result;
   }
 
-  async killPlugins(): Promise<void> {
+  async destroy(): Promise<void> {
     for (const plugin of this.plugins.values()) {
-      PluginIpcBridge.killPlugin(plugin);
+      plugin.destroy();
     }
   }
 
