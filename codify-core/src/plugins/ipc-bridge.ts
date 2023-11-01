@@ -4,6 +4,11 @@ import { config } from '../project-configs';
 import { validateTypeRecordStringUnknown } from '../utils/validator';
 import { PluginMessage } from './entities/message';
 
+type Resolve = (value: unknown) => void;
+type Reject = (reason?: Error) => void;
+
+const resultFunctionName = (cmd: string) => `${cmd}Result`;
+
 export class PluginIpcBridge {
 
   process: ChildProcess;
@@ -28,33 +33,10 @@ export class PluginIpcBridge {
 
   async sendMessageForResult(message: PluginMessage): Promise<unknown> {
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        this.process.kill();
-        reject(new Error(`Plugin did not respond in 10s to call: ${message.cmd}`))
-      }, 10_000);
+      const handler = new SendMessageForResultHandler(message, this.process, resolve, reject);
 
-      const errorListener = (error: Buffer) => {
-        this.process.kill();
-        reject(error.toString());
-      }
-
-      const messageListener = (incomingMessage: unknown) => {
-        console.log(incomingMessage);
-
-        if (!validateTypeRecordStringUnknown(incomingMessage)) {
-          return reject(new Error(`Bad message from plugin ${name}. ${JSON.stringify(incomingMessage, null, 2)}`))
-        }
-
-        if (incomingMessage.cmd === this.getResultFunctionName(message.cmd)) {
-          clearTimeout(timer);
-          this.process.removeListener('message', messageListener);
-          this.process.removeListener('error', errorListener);
-          resolve(incomingMessage.data);
-        }
-      };
-
-      this.process.on('message', messageListener);
-      this.process.stderr!.on('data', errorListener);
+      this.process.on('message', handler.messageListener);
+      this.process.stderr!.on('data', handler.reject);
       this.process.send(message);
     });
   }
@@ -62,9 +44,57 @@ export class PluginIpcBridge {
   sendMessage(message: PluginMessage): void {
     this.process.send(message);
   }
+}
 
-  private getResultFunctionName(rpcFunctionName: string): string {
-    return rpcFunctionName + 'Result';
+class SendMessageForResultHandler {
+  messageToSend: PluginMessage;
+  process: ChildProcess;
+  promiseResolve: Resolve;
+  promiseReject: Reject;
+  timer: NodeJS.Timeout;
+
+  constructor(messageToSend: PluginMessage, process: ChildProcess, resolve: Resolve, reject: Reject) {
+    this.messageToSend = messageToSend;
+    this.process = process;
+    this.promiseResolve = resolve;
+    this.promiseReject = reject;
+    this.timer = this.setResultTimeout();
   }
 
+  messageListener = (incomingMessage: unknown) => {
+    console.log(incomingMessage);
+
+    if (!validateTypeRecordStringUnknown(incomingMessage)) {
+      return this.reject(new Error(`Bad message from plugin. ${JSON.stringify(incomingMessage, null, 2)}`))
+    }
+
+    if (incomingMessage.cmd === resultFunctionName(this.messageToSend.cmd)) {
+      this.resolve(incomingMessage.data);
+    }
+  };
+
+  reject = (err: Error) => {
+    if (this.timer.hasRef()) {
+      clearTimeout(this.timer);
+    }
+
+    this.process.removeListener('message', this.messageListener);
+    this.process.stderr!.removeListener('data', this.reject);
+    this.promiseReject(err);
+  }
+
+  private resolve = (value: unknown) => {
+    if (this.timer.hasRef()) {
+      clearTimeout(this.timer);
+    }
+
+    this.process.removeListener('message', this.messageListener);
+    this.process.stderr!.removeListener('data', this.reject);
+    this.promiseResolve(value);
+  }
+
+  private setResultTimeout = () => setTimeout(() => {
+    this.reject(new Error(`Plugin did not respond in 10s to call: ${this.messageToSend.cmd}`))
+  }, 10_000);
 }
+
