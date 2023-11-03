@@ -1,5 +1,5 @@
 import { RemoveMethods } from '../../../utils/types';
-import { validateNameString, validateStringEq, validateTypeRecordStringUnknown, } from '../../../utils/validator';
+import { validateNameString, validateTypeRecordStringUnknown, validateTypeString, } from '../../../utils/validator';
 import { ConfigBlockType } from '../../language-definition';
 import { ConfigBlock } from './index';
 
@@ -28,10 +28,10 @@ export class ResourceConfig implements ConfigBlock {
 
   constructor(config: unknown) {
     if (this.validate(config)) {
-      const { name, type, ...params } = config;
+      const { name, type, ...parameters } = config;
       this.type = type;
       this.name = name;
-      this.parameters = params ?? {};
+      this.parameters = parameters ?? {};
 
       return;
     }
@@ -44,8 +44,8 @@ export class ResourceConfig implements ConfigBlock {
       throw new Error('Config is not an object');
     }
 
-    if (!validateStringEq(config.type, 'resource')) {
-      throw new Error('Config is not of type resource');
+    if (!validateTypeString(config.type)) {
+      throw new Error('Config type is not specified');
     }
 
     if (config.name && !validateNameString(config.name)) {

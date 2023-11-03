@@ -15,13 +15,13 @@ export class PluginData {
     Object.assign(this, props);
   }
 
-  static create(name: string, directory: string, resourceDefinitions: unknown): PluginData {
+  static create(directory: string, name: string, resourceDefinitions: unknown): PluginData {
     if (this.validate(resourceDefinitions)) {
       const entries = resourceDefinitions.map((u) => {
-        const resourceDefinition = ResourceDefinition.fromJson(u);
+        const resourceDefinition = ResourceDefinition.fromJson(name, u);
 
         // Append the plugin name to all resources to prevent conflicts across plugins
-        return [`${this.name}_${resourceDefinition.name}`, resourceDefinition] as const;
+        return [resourceDefinition.name, resourceDefinition] as const;
       })
 
       return new PluginData({ directory, name, resourceDefinitions: new Map(entries) });

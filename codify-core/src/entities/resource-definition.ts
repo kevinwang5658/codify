@@ -1,8 +1,10 @@
+import { InternalError } from '../utils/errors';
 import { RemoveMethods } from '../utils/types';
 import { validateAllowedObjectKeys, validateNameString, validateTypeRecordStringUnknown, } from '../utils/validator';
 import { ResourceParameterDefinition } from './resource-parameter';
 
 type Name = string;
+export type ResourceDefinitions = Map<Name, ResourceDefinition>
 
 /**
  * Example json def:
@@ -17,7 +19,6 @@ type Name = string;
  *   }
  * }
  */
-
 export class ResourceDefinition {
   name!: string;
   parameters!: Map<Name, ResourceParameterDefinition>;
@@ -26,7 +27,7 @@ export class ResourceDefinition {
     Object.assign(this, props);
   }
 
-  static fromJson(json: unknown): ResourceDefinition {
+  static fromJson(pluginName: string, json: unknown): ResourceDefinition {
     if (this.validateDefinition(json)) {
       const entries = Object.entries(json.parameters).map(([name, value]) => {
         const resourceParameterDefinition = ResourceParameterDefinition.fromJson(name, value);
@@ -35,27 +36,27 @@ export class ResourceDefinition {
       })
 
       const parametersMap = new Map(entries);
-      return new ResourceDefinition({ name: json.name, parameters: parametersMap })
+      return new ResourceDefinition({ name: `${pluginName}_${json.name}`, parameters: parametersMap })
     }
 
-    throw new Error('Unable to parse resource definition');
+    throw new InternalError('Unable to parse resource definition');
   }
 
   private static validateDefinition(json: unknown): json is { name: string; parameters: Record<string, unknown> } {
     if (!validateTypeRecordStringUnknown(json)) {
-      return false;
+      throw new Error(`Unable to validate definition is type object ${json}`);
     }
 
     if (!validateAllowedObjectKeys(json, ['name', 'parameters'])) {
-      return false;
+      throw new Error(`Only keys name and parameters is allowed. ${json}`);
     }
 
     if (!validateNameString(json.name)) {
-      return false;
+      throw new Error(`Unable find definition name. ${json}`);
     }
 
     if (!validateTypeRecordStringUnknown(json.parameters)) {
-      return false;
+      throw new Error(`Unable to parse parameters. ${json}`);
     }
 
     return true;

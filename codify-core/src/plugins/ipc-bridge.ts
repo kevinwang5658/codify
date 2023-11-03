@@ -10,7 +10,6 @@ type Reject = (reason?: Error) => void;
 const resultFunctionName = (cmd: string) => `${cmd}Result`;
 
 export class PluginIpcBridge {
-
   process: ChildProcess;
 
   constructor(process: ChildProcess) {

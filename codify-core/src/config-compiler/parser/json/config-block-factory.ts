@@ -1,4 +1,4 @@
-import { InvalidResourceError, SyntaxError } from '../../../utils/errors';
+import { SyntaxError } from '../../../utils/errors';
 import { ConfigBlockType } from '../../language-definition';
 import { ConfigBlock } from '../entities';
 import { PluginConfig } from '../entities/plugin';
@@ -19,16 +19,6 @@ export const JsonConfigBlockFactory = {
     }
 
     switch (unknownNode.type) {
-      case ConfigBlockType.RESOURCE: {
-        const { name, type, ...parameters } = unknownNode;
-
-        return new ResourceConfig({
-          name: name?.toString(),
-          parameters,
-          type,
-        });
-      }
-
       case ConfigBlockType.PLUGIN: {
         return new PluginConfig({
           parameters: unknownNode,
@@ -40,11 +30,7 @@ export const JsonConfigBlockFactory = {
       }
 
       default: {
-        throw new InvalidResourceError({
-          fileName: errorInfo.fileName,
-          message: 'Unknown resource type',
-          resourceDefinition: JSON.stringify(unknownNode, null, 2),
-        })
+        return new ResourceConfig(unknownNode);
       }
     }
   },

@@ -12,9 +12,13 @@ const DEFAULT_PLUGINS = {
 
 export class PluginCollection {
 
-  private plugins: Map<PluginName, Plugin> = new Map();
+  private plugins: Map<PluginName, Plugin>
 
-  async initializePlugins(project: ParsedProject): Promise<void> {
+  constructor(plugins: Map<PluginName, Plugin>) {
+    this.plugins = plugins;
+  }
+
+  static async create(project: ParsedProject): Promise<PluginCollection> {
     const pluginDefinitions = {
       ...DEFAULT_PLUGINS,
       ...project.projectConfig.plugins,
@@ -24,12 +28,10 @@ export class PluginCollection {
       PluginResolver.resolve(name, version)
     ));
 
-    for (const plugin of plugins) {
-      this.plugins.set(plugin.data.name, plugin);
-    }
+    return new PluginCollection(new Map(plugins.map((plugin) => [plugin.data.name, plugin])))
   }
 
-  async getAllResourceDefinitions(): Promise<Map<string, ResourceDefinition>> {
+  getAllResourceDefinitions(): Map<string, ResourceDefinition> {
     const result = new Map<string, ResourceDefinition>();
     for (const plugin of this.plugins.values()) {
       const { resourceDefinitions } = plugin.data;

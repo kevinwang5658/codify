@@ -1,5 +1,5 @@
 {
-  "name": "homebrew_installation",
+  "name": "installation",
   "parameters": {
     "directory": "string"
   }
