@@ -5,6 +5,7 @@ import { ConfigLoader } from './loader';
 import { FileParser } from './parser';
 import { ParsedModule, ParsedProject } from './parser/entities';
 import { ProjectConfig } from './parser/entities/project';
+import { ResourceConfig } from './parser/entities/resource';
 import { JsonFileParser } from './parser/json/file-parser';
 import { ConfigSemanticAnalyzer } from './semantic-analysis/config-semantic-analyzer';
 
@@ -43,5 +44,8 @@ export class ConfigCompiler {
 
   static async analyzeProject(parsedProject: ParsedProject, resourceDefinitions: ResourceDefinitions): Promise<void> {
     ConfigSemanticAnalyzer.validate(parsedProject, resourceDefinitions);
+    ConfigSemanticAnalyzer.parseResourceDependencies(parsedProject.coreModule.configBlocks
+      .filter((u) => u.configType === ConfigBlockType.RESOURCE) as ResourceConfig[]
+    )
   }
 }

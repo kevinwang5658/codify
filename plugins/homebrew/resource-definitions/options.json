@@ -1,0 +1,6 @@
+{
+  "name": "options",
+  "parameters": {
+    "directory": "string"
+  }
+}

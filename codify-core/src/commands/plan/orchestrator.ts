@@ -1,5 +1,4 @@
 import { ConfigCompiler } from '../../config-compiler';
-import { ConfigSemanticAnalyzer } from '../../config-compiler/semantic-analysis/config-semantic-analyzer';
 import { PluginCollection } from '../../plugins/plugin-collection';
 
 export const PlanOrchestrator = {
@@ -9,7 +8,9 @@ export const PlanOrchestrator = {
     const pluginCollection = await PluginCollection.create(project);
     const resourceDefinitions = await pluginCollection.getAllResourceDefinitions();
 
-    await ConfigSemanticAnalyzer.validate(project, resourceDefinitions);
+    await ConfigCompiler.analyzeProject(project, resourceDefinitions);
+
+    console.log(project.coreModule.configBlocks);
 
     await pluginCollection.destroy();
   },

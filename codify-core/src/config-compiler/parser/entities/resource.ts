@@ -24,7 +24,7 @@ export class ResourceConfig implements ConfigBlock {
   type: string;
   name?: string;
   parameters: Record<string, unknown>;
-  dependencies?: Node[] = [];
+  dependencies: { match: string; parameterName: string; parameterValue: string; resource: ResourceConfig }[] = [];
 
   constructor(config: unknown) {
     if (this.validate(config)) {

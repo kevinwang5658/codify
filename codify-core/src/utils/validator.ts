@@ -17,6 +17,10 @@ export function validateTypeString(actual: unknown): actual is string {
   return typeof actual === 'string';
 }
 
+export function validateTypeBoolean(actual: unknown): actual is boolean {
+  return typeof actual === 'boolean';
+}
+
 export function validateTypeArray(actual: unknown): actual is [] {
   return Array.isArray(actual);
 }
@@ -67,6 +71,26 @@ export function validateAllowedObjectKeys(actual: unknown, allowedKeys: string[]
   const keySet = new Set(allowedKeys);
 
   return validateTypeRecordStringUnknown(actual) && Object.keys(actual).every((k) => keySet.has(k));
+}
+
+export function validateResourceParameterType(actual: unknown, type: ResourceParameterType): boolean {
+
+  /* eslint-disable unicorn/switch-case-braces */
+  switch (type) {
+    case ResourceParameterType.ARRAY:
+      return validateTypeArray(actual);
+    case ResourceParameterType.STRING:
+      return validateTypeString(actual);
+    case ResourceParameterType.BOOLEAN:
+      return validateTypeBoolean(actual);
+    case ResourceParameterType.NUMBER:
+      return validateTypeNumber(actual);
+    case ResourceParameterType.OBJECT:
+      return validateTypeRecordStringUnknown(actual);
+    default:
+      return false;
+  }
+  /* eslint-enable unicorn/switch-case-braces */
 }
 
 
