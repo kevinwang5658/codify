@@ -25,7 +25,7 @@ export const ConfigSemanticAnalyzer = {
         throw new Error(`Invalid resource type specified ${type}. Type is not found in any plugins`);
       }
 
-      const { parameters: parameterDefinitions } = definition;
+      const { parameters: parameterDefinitions, pluginName } = definition;
       for (const [key, value] of Object.entries(parameters)) {
 
         if (!parameterDefinitions.has(key)) {
@@ -42,6 +42,8 @@ export const ConfigSemanticAnalyzer = {
           throw new Error(`Invalid resource config ${type}. Allowed values are ${parameter.allowedValues} but ${value} was provided`)
         }
       }
+
+      configBlock.pluginName = pluginName;
     }
   },
 
@@ -58,8 +60,8 @@ export const ConfigSemanticAnalyzer = {
         .map(([name, value]) => [name, String(value), String(value).matchAll(resourceReferenceRegex)] as const)
         .filter(([, _, match]) => match)
         .flatMap(([name, value, matches]) =>
-          [...matches].map(match => [name, value, match[1]] as const
-          ));
+          [...matches].map(match => [name, value, match[1]] as const)
+        );
 
       for (const [name, value, match] of referenceParameters) {
         const parts = match.split('.');
@@ -68,7 +70,7 @@ export const ConfigSemanticAnalyzer = {
         }
 
         if (!resourceMap.has(parts[0])) {
-          throw new Error(`Un-able to find resource being referenced. ${match}`);
+          throw new Error(`Unable to find resource being referenced. ${match}`);
         }
 
         // TODO: Check for circular dependencies

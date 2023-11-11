@@ -22,6 +22,7 @@ export type ResourceDefinitions = Map<Name, ResourceDefinition>
 export class ResourceDefinition {
   name!: string;
   parameters!: Map<Name, ResourceParameterDefinition>;
+  pluginName!: string;
 
   constructor(props: RemoveMethods<ResourceDefinition>) {
     Object.assign(this, props);
@@ -36,7 +37,7 @@ export class ResourceDefinition {
       })
 
       const parametersMap = new Map(entries);
-      return new ResourceDefinition({ name: `${pluginName}_${json.name}`, parameters: parametersMap })
+      return new ResourceDefinition({ name: `${pluginName}_${json.name}`, parameters: parametersMap, pluginName })
     }
 
     throw new InternalError('Unable to parse resource definition');

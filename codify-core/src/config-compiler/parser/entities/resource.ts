@@ -23,6 +23,7 @@ export class ResourceConfig implements ConfigBlock {
 
   type: string;
   name?: string;
+  pluginName?: string;
   parameters: Record<string, unknown>;
   dependencies: { match: string; parameterName: string; parameterValue: string; resource: ResourceConfig }[] = [];
 

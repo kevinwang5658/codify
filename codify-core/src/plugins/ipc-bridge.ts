@@ -23,6 +23,10 @@ export class PluginIpcBridge {
       { execArgv: ['-r', 'ts-node/register'], silent: true },
     );
 
+    process.stdout!.on('data', (message) => console.log(message.toString()));
+    process.stderr!.on('data', (message) => console.log(message.toString()));
+
+
     return new PluginIpcBridge(process);
   }
 
