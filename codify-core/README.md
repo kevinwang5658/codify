@@ -134,7 +134,7 @@ describe the command here
 
 ```
 USAGE
-  $ codify plan [FILE] [-f] [-n <value>]
+  $ codify plan [FILE] [-f] [-n <value>] [-p <value>]
 
 ARGUMENTS
   FILE  file to read
@@ -142,6 +142,7 @@ ARGUMENTS
 FLAGS
   -f, --force
   -n, --name=<value>  name to print
+  -p, --path=<value>  path to project
 
 DESCRIPTION
   describe the command here
@@ -150,7 +151,7 @@ EXAMPLES
   $ codify plan
 ```
 
-_See code: [src/commands/plan.ts](https://github.com/kevinwang5658/codify/blob/v0.0.0/src/commands/plan.ts)_
+_See code: [src/commands/plan/index.ts](https://github.com/kevinwang5658/codify/blob/v0.0.0/src/commands/plan/index.ts)_
 
 ## `codify plugins`
 
@@ -173,7 +174,7 @@ EXAMPLES
   $ codify plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/index.ts)_
 
 ## `codify plugins:install PLUGIN...`
 
@@ -238,7 +239,7 @@ EXAMPLES
   $ codify plugins:inspect myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/inspect.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/inspect.ts)_
 
 ## `codify plugins:install PLUGIN...`
 
@@ -278,7 +279,7 @@ EXAMPLES
   $ codify plugins:install someuser/someplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/install.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/install.ts)_
 
 ## `codify plugins:link PLUGIN`
 
@@ -292,8 +293,9 @@ ARGUMENTS
   PATH  [default: .] path to plugin
 
 FLAGS
-  -h, --help     Show CLI help.
+  -h, --help      Show CLI help.
   -v, --verbose
+  --[no-]install  Install dependencies after linking the plugin.
 
 DESCRIPTION
   Links a plugin into the CLI for development.
@@ -307,7 +309,7 @@ EXAMPLES
   $ codify plugins:link myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/link.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/link.ts)_
 
 ## `codify plugins:uninstall PLUGIN...`
 
@@ -355,7 +357,8 @@ ALIASES
   $ codify plugins remove
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/uninstall.ts)_
+_See
+code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/uninstall.ts)_
 
 ## `codify plugins:uninstall PLUGIN...`
 
@@ -396,5 +399,5 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.8.4/src/commands/plugins/update.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.9.4/src/commands/plugins/update.ts)_
 <!-- commandsstop -->

@@ -5,7 +5,6 @@ export interface ResourceDefinition {
 
 type ResourceParameter = [] | boolean | null | number | object | string
 
-
 export interface ResourceParameterDefinition {
   name: string;
   type: ResourceParameterType

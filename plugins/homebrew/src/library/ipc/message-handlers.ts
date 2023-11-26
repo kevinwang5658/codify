@@ -4,6 +4,7 @@ import {validateMessage} from "../utils/validators";
 
 const MESSAGE_HANDLERS: Record<string, (plugin: Plugin, message: Message) => Promise<void>> = {
   'getResourceDefinitions': getResourceDefinitions,
+  'generateResourcePlan': generateResourcePlan,
 }
 
 export async function onMessage(plugin: Plugin, message: unknown) {
@@ -19,5 +20,10 @@ export async function onMessage(plugin: Plugin, message: unknown) {
 
 async function getResourceDefinitions(plugin: Plugin, message: Message): Promise<void> {
   const data = await plugin.getResourceDefinitions(message);
+  process.send!({ cmd: message.cmd + 'Result', data });
+}
+
+async function generateResourcePlan(plugin: Plugin, message: Message): Promise<void> {
+  const data = await plugin.generateResourcePlan(message);
   process.send!({ cmd: message.cmd + 'Result', data });
 }

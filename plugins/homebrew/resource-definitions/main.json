@@ -1,6 +1,9 @@
 {
   "name": "main",
   "parameters": {
-    "directory": "string"
+    "version": "string",
+    "taps": "array",
+    "formulae": "object",
+    "cask": "array"
   }
 }
