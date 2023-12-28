@@ -2,12 +2,13 @@ import { ResourceDefinitions } from '../entities/resource-definition';
 import { InternalError } from '../utils/errors';
 import { ConfigBlockType } from './language-definition';
 import { ConfigLoader } from './loader';
+import { ConfigSemanticAnalyzer } from './output/config-semantic-analyzer';
+import { DependencyBuilder } from './output/dependency-builder';
 import { FileParser } from './parser';
 import { ParsedModule, ParsedProject } from './parser/entities';
 import { ProjectConfig } from './parser/entities/project';
 import { ResourceConfig } from './parser/entities/resource';
 import { JsonFileParser } from './parser/json/file-parser';
-import { ConfigSemanticAnalyzer } from './semantic-analysis/config-semantic-analyzer';
 
 export class ConfigCompiler {
 
@@ -44,8 +45,12 @@ export class ConfigCompiler {
 
   static async analyzeProject(parsedProject: ParsedProject, resourceDefinitions: ResourceDefinitions): Promise<void> {
     ConfigSemanticAnalyzer.validate(parsedProject, resourceDefinitions);
-    ConfigSemanticAnalyzer.parseResourceDependencies(parsedProject.coreModule.configBlocks
+  }
+
+  static async buildDependencyList(parsedProject: ParsedProject): Promise<ResourceConfig[]> {
+    const dependencyGraph = DependencyBuilder.buildDependencyGraph(parsedProject.coreModule.configBlocks
       .filter((u) => u.configType === ConfigBlockType.RESOURCE) as ResourceConfig[]
     )
+    return DependencyBuilder.generateDependencyList(dependencyGraph);
   }
 }

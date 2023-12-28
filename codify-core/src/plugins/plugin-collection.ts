@@ -73,7 +73,6 @@ export class PluginCollection {
         continue;
       }
 
-      // eslint-disable-next-line no-await-in-loop
       result.push(await plugin.generateResourcePlan(config as ResourceConfig) as string);
     }
 

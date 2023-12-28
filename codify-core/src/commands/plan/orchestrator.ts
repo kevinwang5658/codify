@@ -9,6 +9,9 @@ export const PlanOrchestrator = {
     const resourceDefinitions = await pluginCollection.getAllResourceDefinitions();
 
     await ConfigCompiler.analyzeProject(project, resourceDefinitions);
+    const dependencyList = ConfigCompiler.buildDependencyList(project);
+    console.log(dependencyList);
+
     const plan = await pluginCollection.getPlan(project);
 
     await pluginCollection.destroy();

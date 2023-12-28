@@ -25,7 +25,6 @@ export class ResourceConfig implements ConfigBlock {
   name?: string;
   pluginName?: string;
   parameters: Record<string, unknown>;
-  dependencies: { match: string; parameterName: string; parameterValue: string; resource: ResourceConfig }[] = [];
 
   constructor(config: unknown) {
     if (this.validate(config)) {
@@ -56,4 +55,7 @@ export class ResourceConfig implements ConfigBlock {
     return true;
   }
 
+  get id() {
+    return this.name === null || this.name === undefined ? this.type : `${this.type}.${this.name}`;
+  }
 }

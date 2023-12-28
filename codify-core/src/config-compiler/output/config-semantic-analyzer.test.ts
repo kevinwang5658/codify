@@ -35,34 +35,6 @@ describe('Config semantic analyzer tests', () => {
     })
   }
 
-  const createResource5 = () => {
-    return new ResourceConfig({
-      type: 'homebrew_options',
-      directory: '${homebrew_installation.directory}'
-    })
-  }
-
-  const createResource6 = () => {
-    return new ResourceConfig({
-      type: 'homebrew_options',
-      directory: '${homebrew_installation_invalid.directory}'
-    })
-  }
-
-  const createResource7 = () => {
-    return new ResourceConfig({
-      type: 'homebrew_options',
-      directory: '${homebrew_installation.directory_invalid}'
-    })
-  }
-
-  const createResource8 = () => {
-    return new ResourceConfig({
-      type: 'homebrew_options',
-      directory: `$\{homebrew_installation.directory} and $\{homebrew_installation.directory}`
-    })
-  }
-
   const createResourceDefinition1 = () => {
     return new ResourceDefinition({
       name: 'homebrew_installation',
@@ -71,7 +43,8 @@ describe('Config semantic analyzer tests', () => {
           name: 'directory',
           type: ResourceParameterType.STRING,
         })
-      }))
+      })),
+      pluginName: 'homebrew',
     })
   }
 
@@ -103,37 +76,5 @@ describe('Config semantic analyzer tests', () => {
     const definition = createResourceDefinition1();
 
     expect(() => ConfigSemanticAnalyzer.validateResourceConfigs([resource], new Map([[definition.name, definition] as const]))).to.throw();
-  })
-
-  it('parses and replace resource references', () => {
-    const resource1 = createResource1();
-    const resource2 = createResource5();
-
-    expect(() => ConfigSemanticAnalyzer.parseResourceDependencies([resource1, resource2])).to.not.throw()
-    expect(resource1).to.deep.eq(createResource1())
-    expect(resource2.parameters['directory']).to.eq(resource1.parameters.directory);
-  })
-
-  it('validates invalid resources', () => {
-    const resource1 = createResource1();
-    const resource2 = createResource6();
-
-    expect(() => ConfigSemanticAnalyzer.parseResourceDependencies([resource1, resource2])).to.throw()
-  })
-
-  it('validates invalid parameters', () => {
-    const resource1 = createResource1();
-    const resource2 = createResource7();
-
-    expect(() => ConfigSemanticAnalyzer.parseResourceDependencies([resource1, resource2])).to.throw()
-  })
-
-  it('handles multiple resource references', () => {
-    const resource1 = createResource1();
-    const resource2 = createResource8();
-
-    expect(() => ConfigSemanticAnalyzer.parseResourceDependencies([resource1, resource2])).to.not.throw()
-    expect(resource1).to.deep.eq(createResource1())
-    expect(resource2.parameters['directory']).to.eq(`${resource1.parameters.directory} and ${resource1.parameters.directory}`);
   })
 });
