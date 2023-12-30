@@ -1,4 +1,4 @@
-import { ResourceConfig } from '../parser/entities/resource';
+import { ResourceConfig } from '../parser/entities/configs/resource';
 import { ResourceNode } from './entities/resource-node';
 import { DependencyBuilder } from './dependency-builder';
 import { expect } from '@oclif/test';

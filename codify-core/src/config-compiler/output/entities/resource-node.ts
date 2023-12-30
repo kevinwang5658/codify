@@ -1,5 +1,5 @@
 import { RemoveMethods } from '../../../utils/types';
-import { ResourceConfig } from '../../parser/entities/resource';
+import { ResourceConfig } from '../../parser/entities/configs/resource';
 
 export class ResourceNode {
   dependencies!: ResourceNode[];

@@ -1,4 +1,4 @@
-import { RemoveMethods } from '../../../utils/types';
+import { RemoveMethods } from '../../../../utils/types';
 import {
   validateAllowedObjectKeys,
   validateNameString,
@@ -8,9 +8,9 @@ import {
   validateTypeRecordStringUnknown,
   validateTypeString,
   validateUrl
-} from '../../../utils/validator';
-import { ConfigBlockType } from '../../language-definition';
-import { ConfigBlock } from './index';
+} from '../../../../utils/validator';
+import { ConfigClass } from '../../../language-definition';
+import { ConfigBlock } from '../index';
 
 /** Project JSON supported format
  * {
@@ -30,13 +30,13 @@ const ALLOWED_KEYS = [
 ]
 
 export class ProjectConfig implements ConfigBlock {
-  configType = ConfigBlockType.PROJECT;
+  configClass = ConfigClass.PROJECT;
 
   name?: string;
   plugins?: Record<string, string>;
 
   constructor(config: unknown) {
-    if (this.validate(config)) {
+    if (this.validateConfig(config)) {
       this.name = config.name;
       this.plugins = config.plugins;
 
@@ -46,7 +46,7 @@ export class ProjectConfig implements ConfigBlock {
     throw new Error('Unable to parse project');
   }
 
-  validate(config: unknown): config is RemoveMethods<ProjectConfig> {
+  validateConfig(config: unknown): config is RemoveMethods<ProjectConfig> {
     if (!validateTypeRecordStringUnknown(config)) {
       throw new Error('Config is not an object');
     }

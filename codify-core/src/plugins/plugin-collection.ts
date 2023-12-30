@@ -1,6 +1,6 @@
-import { ConfigBlockType } from '../config-compiler/language-definition';
-import { ParsedProject } from '../config-compiler/parser/entities';
-import { ResourceConfig } from '../config-compiler/parser/entities/resource';
+import { ConfigClass } from '../config-compiler/language-definition';
+import { ResourceConfig } from '../config-compiler/parser/entities/configs/resource';
+import { ParsedProject } from '../config-compiler/parser/entities/parsed-project';
 import { ResourceDefinition } from '../entities/resource-definition';
 import { Plugin } from './entities/plugin';
 import { PluginResolver } from './resolver';
@@ -59,7 +59,7 @@ export class PluginCollection {
   async getPlan(project: ParsedProject): Promise<Array<string>> {
     const result = new Array<string>();
     for (const config of project.coreModule.configBlocks) {
-      if (config.configType !== ConfigBlockType.RESOURCE) {
+      if (config.configClass !== ConfigClass.RESOURCE) {
         continue;
       }
 

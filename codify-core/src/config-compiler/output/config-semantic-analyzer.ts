@@ -1,8 +1,8 @@
 import { ResourceDefinitions } from '../../entities/resource-definition';
 import { validateResourceParameterType } from '../../utils/validator';
-import { ConfigBlockType } from '../language-definition';
-import { ParsedProject } from '../parser/entities';
-import { ResourceConfig } from '../parser/entities/resource';
+import { ConfigClass } from '../language-definition';
+import { ResourceConfig } from '../parser/entities/configs/resource';
+import { ParsedProject } from '../parser/entities/parsed-project';
 
 export const ConfigSemanticAnalyzer = {
 
@@ -10,7 +10,7 @@ export const ConfigSemanticAnalyzer = {
     const resourceConfigs = project
       .coreModule
       .configBlocks
-      .filter((u) => u.configType === ConfigBlockType.RESOURCE) as ResourceConfig[];
+      .filter((u) => u.configClass === ConfigClass.RESOURCE) as ResourceConfig[];
 
     this.validateResourceConfigs(resourceConfigs, resourceDefinitions);
   },

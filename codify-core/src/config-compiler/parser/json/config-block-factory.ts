@@ -1,9 +1,9 @@
 import { SyntaxError } from '../../../utils/errors';
-import { ConfigBlockType } from '../../language-definition';
+import { ConfigClass } from '../../language-definition';
 import { ConfigBlock } from '../entities';
-import { PluginConfig } from '../entities/plugin';
-import { ProjectConfig } from '../entities/project';
-import { ResourceConfig } from '../entities/resource';
+import { PluginConfig } from '../entities/configs/plugin';
+import { ProjectConfig } from '../entities/configs/project';
+import { ResourceConfig } from '../entities/configs/resource';
 
 export const JsonConfigBlockFactory = {
 
@@ -19,13 +19,13 @@ export const JsonConfigBlockFactory = {
     }
 
     switch (unknownNode.type) {
-      case ConfigBlockType.PLUGIN: {
+      case ConfigClass.PLUGIN: {
         return new PluginConfig({
           parameters: unknownNode,
         });
       }
 
-      case ConfigBlockType.PROJECT: {
+      case ConfigClass.PROJECT: {
         return new ProjectConfig(unknownNode);
       }
 

@@ -1,26 +1,7 @@
-import { RemoveMethods } from '../../../utils/types';
-import { ConfigBlockType } from '../../language-definition';
-import { ProjectConfig } from './project';
+import { ConfigClass } from '../../language-definition';
 
 export interface ConfigBlock {
-  configType: ConfigBlockType;
+  configClass: ConfigClass;
 
-  validate(config: unknown): never | void;
-}
-
-export class ParsedProject {
-  coreModule!: ParsedModule;
-  projectConfig!: ProjectConfig;
-
-  constructor(props: RemoveMethods<ParsedProject>) {
-    Object.assign(this, props)
-  }
-}
-
-export class ParsedModule {
-  configBlocks!: ConfigBlock[];
-
-  constructor(props: RemoveMethods<ParsedModule>) {
-    Object.assign(this, props);
-  }
+  validateConfig(config: unknown): never | void;
 }

@@ -1,4 +1,4 @@
-import { ResourceConfig } from '../../config-compiler/parser/entities/resource';
+import { ResourceConfig } from '../../config-compiler/parser/entities/configs/resource';
 import { PluginIpcBridge } from '../ipc-bridge';
 import { PluginData } from './plugin-data';
 

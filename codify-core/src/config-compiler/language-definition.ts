@@ -1,4 +1,4 @@
-export enum ConfigBlockType {
+export enum ConfigClass {
   PLUGIN = 'plugin',
   PROJECT = 'project',
   RESOURCE = 'resource',

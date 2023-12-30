@@ -1,4 +1,4 @@
-import { ResourceConfig } from '../parser/entities/resource';
+import { ResourceConfig } from '../parser/entities/configs/resource';
 import { ResourceDefinition } from '../../entities/resource-definition';
 import { ResourceParameterDefinition } from '../../entities/resource-parameter';
 import { ResourceParameterType } from '../language-definition';

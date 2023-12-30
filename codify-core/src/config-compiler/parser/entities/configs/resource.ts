@@ -1,7 +1,7 @@
-import { RemoveMethods } from '../../../utils/types';
-import { validateNameString, validateTypeRecordStringUnknown, validateTypeString, } from '../../../utils/validator';
-import { ConfigBlockType } from '../../language-definition';
-import { ConfigBlock } from './index';
+import { RemoveMethods } from '../../../../utils/types';
+import { validateNameString, validateTypeRecordStringUnknown, validateTypeString, } from '../../../../utils/validator';
+import { ConfigClass } from '../../../language-definition';
+import { ConfigBlock } from '../index';
 
 /** Resource JSON supported format
  * {
@@ -19,7 +19,7 @@ import { ConfigBlock } from './index';
  */
 
 export class ResourceConfig implements ConfigBlock {
-  readonly configType = ConfigBlockType.RESOURCE;
+  readonly configClass = ConfigClass.RESOURCE;
 
   type: string;
   name?: string;
@@ -27,7 +27,7 @@ export class ResourceConfig implements ConfigBlock {
   parameters: Record<string, unknown>;
 
   constructor(config: unknown) {
-    if (this.validate(config)) {
+    if (this.validateConfig(config)) {
       const { name, type, ...parameters } = config;
       this.type = type;
       this.name = name;
@@ -39,7 +39,7 @@ export class ResourceConfig implements ConfigBlock {
     throw new Error('Unable to parse resource config');
   }
 
-  validate(config: unknown): config is RemoveMethods<ResourceConfig> {
+  validateConfig(config: unknown): config is RemoveMethods<ResourceConfig> {
     if (!validateTypeRecordStringUnknown(config)) {
       throw new Error('Config is not an object');
     }
