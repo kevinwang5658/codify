@@ -1,11 +1,11 @@
-import { ResourceParameterType } from '../config-compiler/language-definition';
-import { RemoveMethods } from '../utils/types';
+import { ResourceParameterType } from '../../../config-compiler/language-definition';
+import { RemoveMethods } from '../../../utils/types';
 import {
   validateAllowedObjectKeys,
   validateTypeNumber,
   validateTypeRecordStringString,
   validateTypeResourceParameterType
-} from '../utils/validator';
+} from '../../../utils/validator';
 
 type ResourceParameter = [] | boolean | null | number | object | string
 

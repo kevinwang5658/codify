@@ -1,4 +1,4 @@
-import { ResourceDefinitions } from '../entities/resource-definition';
+import { ResourceDefinitions } from '../plugins/entities/definitions/resource';
 import { InternalError } from '../utils/errors';
 import { ConfigClass } from './language-definition';
 import { ConfigLoader } from './loader';

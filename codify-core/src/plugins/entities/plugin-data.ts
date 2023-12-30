@@ -1,6 +1,6 @@
-import { ResourceDefinition } from '../../entities/resource-definition';
 import { RemoveMethods } from '../../utils/types';
 import { validateTypeArray, validateTypeRecordStringUnknown } from '../../utils/validator';
+import { ResourceDefinition } from './definitions/resource';
 
 type ResourceName = string;
 

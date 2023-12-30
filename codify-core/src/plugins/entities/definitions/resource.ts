@@ -1,6 +1,10 @@
-import { InternalError } from '../utils/errors';
-import { RemoveMethods } from '../utils/types';
-import { validateAllowedObjectKeys, validateNameString, validateTypeRecordStringUnknown, } from '../utils/validator';
+import { InternalError } from '../../../utils/errors';
+import { RemoveMethods } from '../../../utils/types';
+import {
+  validateAllowedObjectKeys,
+  validateNameString,
+  validateTypeRecordStringUnknown,
+} from '../../../utils/validator';
 import { ResourceParameterDefinition } from './resource-parameter';
 
 type Name = string;

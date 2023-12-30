@@ -1,7 +1,7 @@
 import { ConfigClass } from '../config-compiler/language-definition';
 import { ResourceConfig } from '../config-compiler/parser/entities/configs/resource';
 import { ParsedProject } from '../config-compiler/parser/entities/parsed-project';
-import { ResourceDefinition } from '../entities/resource-definition';
+import { ResourceDefinition } from './entities/definitions/resource';
 import { Plugin } from './entities/plugin';
 import { PluginResolver } from './resolver';
 

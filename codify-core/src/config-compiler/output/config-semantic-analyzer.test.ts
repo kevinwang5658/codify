@@ -1,6 +1,6 @@
 import { ResourceConfig } from '../parser/entities/configs/resource';
-import { ResourceDefinition } from '../../entities/resource-definition';
-import { ResourceParameterDefinition } from '../../entities/resource-parameter';
+import { ResourceDefinition } from '../../plugins/entities/definitions/resource';
+import { ResourceParameterDefinition } from '../../plugins/entities/definitions/resource-parameter';
 import { ResourceParameterType } from '../language-definition';
 import { ConfigSemanticAnalyzer } from './config-semantic-analyzer';
 import { expect } from '@oclif/test';

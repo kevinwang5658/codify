@@ -1,4 +1,4 @@
-import { ResourceDefinitions } from '../../entities/resource-definition';
+import { ResourceDefinitions } from '../../plugins/entities/definitions/resource';
 import { validateResourceParameterType } from '../../utils/validator';
 import { ConfigClass } from '../language-definition';
 import { ResourceConfig } from '../parser/entities/configs/resource';
