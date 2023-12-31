@@ -3,16 +3,15 @@ import { PluginCollection } from '../../plugins/plugin-collection';
 
 export const PlanOrchestrator = {
   async run(rootDirectory: string): Promise<string> {
-    const project = await ConfigCompiler.parseProject(rootDirectory);
+    const parsedProject = await ConfigCompiler.parseProject(rootDirectory);
 
-    const pluginCollection = await PluginCollection.create(project);
-    const resourceDefinitions = await pluginCollection.getAllResourceDefinitions();
+    const pluginCollection = await PluginCollection.create(parsedProject);
+    const definitions = await pluginCollection.getResourceDefinitions();
 
-    await ConfigCompiler.analyzeProject(project, resourceDefinitions);
-    const dependencyList = ConfigCompiler.buildDependencyList(project);
-    console.log(dependencyList);
+    const compiledProject = await ConfigCompiler.compileProject(parsedProject, definitions);
+    console.log(compiledProject.getApplySequence());
 
-    const plan = await pluginCollection.getPlan(project);
+    const plan = await pluginCollection.getPlan(parsedProject);
 
     await pluginCollection.destroy();
     return JSON.stringify(plan, null, 2);

@@ -33,7 +33,7 @@ export class PluginCollection {
     return new PluginCollection(new Map(plugins.map((plugin) => [plugin.data.name, plugin])))
   }
 
-  getAllResourceDefinitions(): Map<string, ResourceDefinition> {
+  getResourceDefinitions(): Map<string, ResourceDefinition> {
     const result = new Map<string, ResourceDefinition>();
     for (const plugin of this.plugins.values()) {
       const { resourceDefinitions } = plugin.data;

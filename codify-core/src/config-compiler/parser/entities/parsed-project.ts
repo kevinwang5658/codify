@@ -9,4 +9,9 @@ export class ParsedProject {
   constructor(props: RemoveMethods<ParsedProject>) {
     Object.assign(this, props)
   }
+
+  // TODO: Implement this when adding multi-modules
+  getModuleTree(): ParsedModule {
+    return this.coreModule;
+  }
 }

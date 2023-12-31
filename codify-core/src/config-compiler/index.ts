@@ -2,11 +2,11 @@ import { ResourceDefinitions } from '../plugins/entities/definitions/resource';
 import { InternalError } from '../utils/errors';
 import { ConfigClass } from './language-definition';
 import { ConfigLoader } from './loader';
-import { ConfigSemanticAnalyzer } from './output/config-semantic-analyzer';
-import { DependencyBuilder } from './output/dependency-builder';
+import { DependencyGraphBuilder } from './output-generation/dependency-graph-builder';
+import { CompiledProject } from './output-generation/entities/compiled-project';
+import { CompiledProjectTransformer } from './output-generation/transformer';
 import { FileParser } from './parser';
 import { ProjectConfig } from './parser/entities/configs/project';
-import { ResourceConfig } from './parser/entities/configs/resource';
 import { ParsedModule } from './parser/entities/parsed-module';
 import { ParsedProject } from './parser/entities/parsed-project';
 import { JsonFileParser } from './parser/json/file-parser';
@@ -44,14 +44,9 @@ export class ConfigCompiler {
     })
   }
 
-  static async analyzeProject(parsedProject: ParsedProject, resourceDefinitions: ResourceDefinitions): Promise<void> {
-    ConfigSemanticAnalyzer.validate(parsedProject, resourceDefinitions);
-  }
-
-  static async buildDependencyList(parsedProject: ParsedProject): Promise<ResourceConfig[]> {
-    const dependencyGraph = DependencyBuilder.buildDependencyGraph(parsedProject.coreModule.configBlocks
-      .filter((u) => u.configClass === ConfigClass.RESOURCE) as ResourceConfig[]
-    )
-    return DependencyBuilder.generateDependencyList(dependencyGraph);
+  static compileProject(parsedProject: ParsedProject, definitions: ResourceDefinitions): CompiledProject {
+    const compiledProject = CompiledProjectTransformer.validateAndTransform(parsedProject, definitions);
+    DependencyGraphBuilder.buildDependencyGraph(compiledProject);
+    return compiledProject;
   }
 }

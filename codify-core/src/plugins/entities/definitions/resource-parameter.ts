@@ -1,4 +1,5 @@
 import { ResourceParameterType } from '../../../config-compiler/language-definition';
+import { ResourceParameter } from '../../../config-compiler/output-generation/entities/resource-parameter';
 import { RemoveMethods } from '../../../utils/types';
 import {
   validateAllowedObjectKeys,
@@ -6,8 +7,6 @@ import {
   validateTypeRecordStringString,
   validateTypeResourceParameterType
 } from '../../../utils/validator';
-
-type ResourceParameter = [] | boolean | null | number | object | string
 
 /**
  * Resource parameter defintiion can be either a resource parameter type or an object with additional definitions.

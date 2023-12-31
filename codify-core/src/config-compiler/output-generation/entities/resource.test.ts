@@ -1,11 +1,11 @@
-import { ResourceConfig } from '../parser/entities/configs/resource';
-import { ResourceDefinition } from '../../plugins/entities/definitions/resource';
-import { ResourceParameterDefinition } from '../../plugins/entities/definitions/resource-parameter';
-import { ResourceParameterType } from '../language-definition';
-import { ConfigSemanticAnalyzer } from './config-semantic-analyzer';
+import { ResourceConfig } from '../../parser/entities/configs/resource';
+import { ResourceDefinition } from '../../../plugins/entities/definitions/resource';
+import { ResourceParameterDefinition } from '../../../plugins/entities/definitions/resource-parameter';
+import { ResourceParameterType } from '../../language-definition';
 import { expect } from '@oclif/test';
+import { Resource } from './resource';
 
-describe('Config semantic analyzer tests', () => {
+describe('Resource definition validation', () => {
 
   const createResource1 = () => {
     return new ResourceConfig({
@@ -53,14 +53,14 @@ describe('Config semantic analyzer tests', () => {
     const resource = createResource1();
     const definition = createResourceDefinition1();
 
-    expect(() => ConfigSemanticAnalyzer.validateResourceConfigs([resource], new Map([[definition.name, definition] as const]))).to.not.throw();
+    expect(() => Resource.validateAndTransformFromConfig(resource, definition)).to.not.throw();
   });
 
   it('validates invalid parameter names', () => {
     const resource = createResource2();
     const definition = createResourceDefinition1();
 
-    expect(() => ConfigSemanticAnalyzer.validateResourceConfigs([resource], new Map([[definition.name, definition] as const]))).to.throw();
+    expect(() => Resource.validateAndTransformFromConfig(resource, definition)).to.throw();
   })
 
   it('validates invalid resource names', () => {
@@ -68,13 +68,13 @@ describe('Config semantic analyzer tests', () => {
     const definition = createResourceDefinition1();
 
 
-    expect(() => ConfigSemanticAnalyzer.validateResourceConfigs([resource], new Map([[definition.name, definition] as const]))).to.throw();
+    expect(() => Resource.validateAndTransformFromConfig(resource, definition)).to.throw();
   })
 
   it('validates invalid parameter type', () => {
     const resource = createResource4();
     const definition = createResourceDefinition1();
 
-    expect(() => ConfigSemanticAnalyzer.validateResourceConfigs([resource], new Map([[definition.name, definition] as const]))).to.throw();
+    expect(() => Resource.validateAndTransformFromConfig(resource, definition)).to.throw();
   })
 });
