@@ -1,4 +1,4 @@
-import { ResourceConfig } from '../../config-compiler/parser/entities/configs/resource';
+import { Applyable } from '../../config-compiler/output-generator/entities';
 import { PluginIpcBridge } from '../ipc-bridge';
 import { PluginData } from './plugin-data';
 
@@ -21,9 +21,8 @@ export class Plugin {
     return new Plugin(PluginData.create(directory, name, resourceDefinitions), ipcBridge);
   }
 
-  async generateResourcePlan(resource: ResourceConfig): Promise<unknown> {
-    const plan = await this.ipcBridge.sendMessageForResult({ cmd: 'generateResourcePlan', data: resource });
-    return plan;
+  async generateResourcePlan(applyable: Applyable): Promise<unknown> {
+    return this.ipcBridge.sendMessageForResult({ cmd: 'generateResourcePlan', data: applyable.toJson() });
   }
 
   destroy() {

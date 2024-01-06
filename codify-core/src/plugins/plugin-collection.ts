@@ -1,5 +1,4 @@
-import { ConfigClass } from '../config-compiler/language-definition';
-import { ResourceConfig } from '../config-compiler/parser/entities/configs/resource';
+import { CompiledProject } from '../config-compiler/output-generator/entities/compiled-project';
 import { ParsedProject } from '../config-compiler/parser/entities/parsed-project';
 import { ResourceDefinition } from './entities/definitions/resource';
 import { Plugin } from './entities/plugin';
@@ -56,24 +55,18 @@ export class PluginCollection {
     return result;
   }
 
-  async getPlan(project: ParsedProject): Promise<Array<string>> {
+  async getPlan(project: CompiledProject): Promise<Array<string>> {
     const result = new Array<string>();
-    for (const config of project.coreModule.configBlocks) {
-      if (config.configClass !== ConfigClass.RESOURCE) {
-        continue;
-      }
-
-      const { pluginName } = (config as ResourceConfig);
-      if (!pluginName) {
-        continue;
-      }
-
-      const plugin = this.plugins.get(pluginName);
+    for (const applyable of project.getApplySequence()) {
+      const plugin = this.plugins.get(applyable.pluginName);
       if (!plugin) {
         continue;
       }
 
-      result.push(await plugin.generateResourcePlan(config as ResourceConfig) as string);
+      console.log('a');
+
+      // eslint-disable-next-line no-await-in-loop
+      result.push(await plugin.generateResourcePlan(applyable) as string);
     }
 
     return result;

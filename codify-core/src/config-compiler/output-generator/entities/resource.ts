@@ -37,8 +37,12 @@ export class Resource implements Applyable {
     return resource
   }
 
-  toJson(): string {
-    return '';
+  toJson(): Record<string, unknown> {
+    return {
+      name: this.name,
+      parameters: Object.fromEntries(this.parameters.entries()),
+      type: this.type,
+    }
   }
 
   private validateUsingDefinitions(definition: ResourceDefinition): void {

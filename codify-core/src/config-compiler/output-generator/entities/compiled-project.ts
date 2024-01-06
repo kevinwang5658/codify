@@ -16,8 +16,6 @@ export class CompiledProject {
     const queue: Applyable[] = [];
     const result: Applyable[] = [];
 
-    console.log(this.applyableGraph);
-
     do {
       const independentNodeNames = this.findIndependentNodes(inDegreeMap);
 

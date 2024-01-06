@@ -1,5 +1,5 @@
 import { ResourceParameterType } from '../../../config-compiler/language-definition';
-import { ResourceParameter } from '../../../config-compiler/output-generation/entities/resource-parameter';
+import { ResourceParameter } from '../../../config-compiler/output-generator/entities/resource-parameter';
 import { RemoveMethods } from '../../../utils/types';
 import {
   validateAllowedObjectKeys,

@@ -4,9 +4,11 @@ import { ResourceParameter } from './resource-parameter';
 export interface Applyable {
   configClass: ConfigClass;
   dependencies: Applyable[];
-  parameters: Map<string, ResourceParameter>;
 
   get id(): string;
 
-  toJson(): string;
+  parameters: Map<string, ResourceParameter>;
+  pluginName: string;
+
+  toJson(): Record<string, unknown>;
 }
