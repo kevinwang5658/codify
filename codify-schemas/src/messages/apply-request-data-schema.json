@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.codify.com/plan-response-data-schema.json",
+  "title": "Plan Response Schema Data",
+  "description": "Apply the previously generated plan. The plan must already be generated in order for apply to work.",
+  "type": "object",
+  "properties": {
+    "planId": {
+      "description": "The plan uuid. This id is used to look up the generated plan on the plugin side",
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": ["planId"],
+  "additionalProperties": false
+}

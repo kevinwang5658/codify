@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.codify.com/validate-request-data-schema.json",
+  "title": "Validate Request Schema Data",
+  "type": "array",
+  "items": {
+    "$ref": "../resource-schema.json"
+  }
+}
