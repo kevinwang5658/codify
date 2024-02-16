@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://www.codify.com/plan-response-data-schema.json",
-  "title": "Plan Response Schema Data",
+  "$id": "https://www.codify.com/apply-request-data-schema.json",
+  "title": "Apply Request Schema Data",
   "description": "Apply the previously generated plan. The plan must already be generated in order for apply to work.",
   "type": "object",
   "properties": {

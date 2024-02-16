@@ -1,7 +1,6 @@
 import Ajv2020 from "ajv/dist/2020";
 import { describe, it } from 'mocha';
 import schema from './resource-schema.json';
-import { expect } from "chai";
 import assert from "node:assert";
 
 const ajv = new Ajv2020({
@@ -36,6 +35,5 @@ describe("Resource schema tests", () => {
       assert.equal(validate({ type: "type", dependsOn: ["item1", "item1"] }), false)
       assert.equal(validate({ type: "type", dependsOn: "item1" }), false)
       assert.equal(validate({ type: "type", dependsOn: [6] }), false)
-
    })
 });

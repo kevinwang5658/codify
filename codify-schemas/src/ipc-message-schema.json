@@ -4,7 +4,7 @@
   "title": "IPC Message Schema",
   "type": "object",
   "properties": {
-    "msg": {
+    "cmd": {
       "description": "The uri for the message. Like an http url",
       "type": "string"
     },
@@ -17,5 +17,5 @@
       "description": "The data of the message."
     }
   },
-  "required": ["msg", "data"]
+  "required": ["cmd", "data"]
 }
