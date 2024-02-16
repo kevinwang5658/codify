@@ -4,8 +4,8 @@
 /.idea
 /.nyc_output
 /dist
+/dist/**/*
 /lib
-/package-lock.json
 /tmp
 /yarn.lock
 node_modules

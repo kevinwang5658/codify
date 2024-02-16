@@ -16,6 +16,9 @@
     "eslint-config-oclif": "^5",
     "eslint-config-oclif-typescript": "^3"
   },
+  "dependencies": {
+    "codify-schemas": "../../codify-schemas"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
