@@ -7,7 +7,7 @@ import { PluginMessage } from './entities/message';
 type Resolve = (value: unknown) => void;
 type Reject = (reason?: Error) => void;
 
-const resultFunctionName = (cmd: string) => `${cmd}Result`;
+const resultFunctionName = (cmd: string) => `${cmd}_Result`;
 
 export class PluginIpcBridge {
   process: ChildProcess;
