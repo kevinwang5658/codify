@@ -1,8 +1,8 @@
 import { expect } from '@oclif/test';
-import { DependencyGraphBuilder } from './dependency-graph-builder';
-import { Resource } from './entities/resource';
-import { CompiledProject } from './entities/compiled-project';
-import { ProjectConfig } from '../parser/entities/configs/project';
+import { DependencyGraphBuilder } from './dependency-graph-builder.js';
+import { Resource } from './entities/resource.js';
+import { CompiledProject } from './entities/compiled-project.js';
+import { ProjectConfig } from '../parser/entities/configs/project.js';
 
 describe('Dependency graph tests', () => {
 
@@ -31,6 +31,7 @@ describe('Dependency graph tests', () => {
     expect(() => DependencyGraphBuilder.buildDependencyGraph(project)).to.not.throw()
     expect(project.applyableGraph.get('homebrew_installation')).to.deep.eq(resource1())
     expect(project.applyableGraph.get('homebrew_options')).to.not.deep.eq(resource2())
+    // @ts-ignore
     expect(project.applyableGraph.get('homebrew_options').parameters.get('directory')).to.eq(graph.get('homebrew_installation')!.parameters.get('directory'));
   })
 
@@ -109,6 +110,7 @@ describe('Dependency graph tests', () => {
     expect(() => DependencyGraphBuilder.buildDependencyGraph(project)).to.not.throw()
     expect(project.applyableGraph.get('homebrew_installation')).to.deep.eq(resource1())
     expect(project.applyableGraph.get('homebrew_options')).to.not.deep.eq(resource2())
+    // @ts-ignore
     expect(project.applyableGraph.get('homebrew_options').parameters.get('directory')).to.eq(`/usr/opt and /usr/opt`);
   })
 
@@ -137,6 +139,7 @@ describe('Dependency graph tests', () => {
     expect(() => DependencyGraphBuilder.buildDependencyGraph(project)).to.not.throw()
     expect(project.applyableGraph.get('homebrew_installation.first')).to.deep.eq(resource1())
     expect(project.applyableGraph.get('homebrew_options')).to.not.deep.eq(resource2())
+    // @ts-ignore
     expect(project.applyableGraph.get('homebrew_options').parameters.get('directory')).to.eq(`/usr/opt`);
   })
 })

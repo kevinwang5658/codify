@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 
-import { Plugin } from './entities/plugin';
+import { Plugin } from './entities/plugin.js';
 
 const DEFAULT_PLUGIN_REGEX = /(?<=default:).*$/g
 

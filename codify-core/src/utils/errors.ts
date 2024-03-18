@@ -1,4 +1,4 @@
-import { RemoveErrorMethods } from './types';
+import { RemoveErrorMethods } from './types.js';
 
 export class InternalError extends Error {
   name = 'InternalError'

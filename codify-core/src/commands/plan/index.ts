@@ -1,7 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core'
 import * as path from 'node:path';
 
-import { PlanOrchestrator } from './orchestrator';
+import { PlanOrchestrator } from './orchestrator.js';
 
 export default class Plan extends Command {
   static args = {

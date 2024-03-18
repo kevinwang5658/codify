@@ -1,9 +1,9 @@
-import { ResourceDefinitions } from '../../plugins/entities/definitions/resource';
-import { ConfigClass } from '../language-definition';
-import { ResourceConfig } from '../parser/entities/configs/resource';
-import { ParsedProject } from '../parser/entities/parsed-project';
-import { CompiledProject } from './entities/compiled-project';
-import { Resource } from './entities/resource';
+import { ResourceDefinitions } from '../../plugins/entities/definitions/resource.js';
+import { ConfigClass } from '../language-definition.js';
+import { ResourceConfig } from '../parser/entities/configs/resource.js';
+import { ParsedProject } from '../parser/entities/parsed-project.js';
+import { CompiledProject } from './entities/compiled-project.js';
+import { Resource } from './entities/resource.js';
 
 export const CompiledProjectTransformer = {
 

@@ -1,8 +1,8 @@
 import * as mock from 'mock-fs';
 import { deepEqual, equal } from 'node:assert';
 
-import { LoadedFile } from './entities/file';
-import { ConfigLoader } from './index';
+import { LoadedFile } from './entities/file.js';
+import { ConfigLoader } from './index.js';
 
 describe('Config loader tests', () => {
   let parser: ConfigLoader;
@@ -20,7 +20,7 @@ describe('Config loader tests', () => {
         'providers.json': '[]'
       }
     };
-    mock(config);
+    (mock as any)(config);
 
     const project = await parser.loadProject(dir);
 

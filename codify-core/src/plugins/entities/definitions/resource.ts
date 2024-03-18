@@ -1,11 +1,11 @@
-import { InternalError } from '../../../utils/errors';
-import { RemoveMethods } from '../../../utils/types';
+import { InternalError } from '../../../utils/errors.js';
+import { RemoveMethods } from '../../../utils/types.js';
 import {
   validateAllowedObjectKeys,
   validateNameString,
   validateTypeRecordStringUnknown,
-} from '../../../utils/validator';
-import { ResourceParameterDefinition } from './resource-parameter';
+} from '../../../utils/validator.js';
+import { ResourceParameterDefinition } from './resource-parameter.js';
 
 type Name = string;
 export type ResourceDefinitions = Map<Name, ResourceDefinition>

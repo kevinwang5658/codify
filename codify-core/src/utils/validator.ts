@@ -1,6 +1,12 @@
+import Ajv2020 from 'ajv/dist/2020.js';
 import { valid as semverValid } from 'semver';
 
-import { ResourceParameterType } from '../config-compiler/language-definition';
+import { ResourceParameterType } from '../config-compiler/language-definition.js';
+
+// eslint-disable-next-line new-cap
+export const ajv = new Ajv2020.default({
+  strict: true
+});
 
 //******************
 // Regex

@@ -1,5 +1,5 @@
-import { ConfigClass } from '../../language-definition';
-import { ResourceParameter } from './resource-parameter';
+import { ConfigClass } from '../../language-definition.js';
+import { ResourceParameter } from './resource-parameter.js';
 
 export interface Applyable {
   configClass: ConfigClass;

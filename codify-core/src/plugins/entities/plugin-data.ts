@@ -1,6 +1,6 @@
-import { RemoveMethods } from '../../utils/types';
-import { validateTypeArray, validateTypeRecordStringUnknown } from '../../utils/validator';
-import { ResourceDefinition } from './definitions/resource';
+import { RemoveMethods } from '../../utils/types.js';
+import { validateTypeArray, validateTypeRecordStringUnknown } from '../../utils/validator.js';
+import { ResourceDefinition } from './definitions/resource.js';
 
 type ResourceName = string;
 
@@ -36,7 +36,7 @@ export class PluginData {
       throw new Error('Resource definitions is not of type array')
     }
 
-    if (!resourceDefinitions.every((u) => validateTypeRecordStringUnknown(u))) {
+    if (!resourceDefinitions.every((u: unknown) => validateTypeRecordStringUnknown(u))) {
       throw new Error('Type definitions is not of Record<string, unknown>')
     }
 

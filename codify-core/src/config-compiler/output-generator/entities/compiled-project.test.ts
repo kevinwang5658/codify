@@ -1,7 +1,7 @@
 import { expect } from '@oclif/test';
-import { Resource } from './resource';
-import { CompiledProject } from './compiled-project';
-import { ProjectConfig } from '../../parser/entities/configs/project';
+import { Resource } from './resource.js';
+import { CompiledProject } from './compiled-project.js';
+import { ProjectConfig } from '../../parser/entities/configs/project.js';
 
 describe('', () => {
 

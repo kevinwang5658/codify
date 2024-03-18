@@ -1,9 +1,9 @@
-import { ResourceDefinition } from '../../../plugins/entities/definitions/resource';
-import { validateResourceParameterType } from '../../../utils/validator';
-import { ConfigClass, } from '../../language-definition';
-import { ResourceConfig } from '../../parser/entities/configs/resource';
-import { Applyable } from './index';
-import { ResourceParameter } from './resource-parameter';
+import { ResourceDefinition } from '../../../plugins/entities/definitions/resource.js';
+import { validateResourceParameterType } from '../../../utils/validator.js';
+import { ConfigClass, } from '../../language-definition.js';
+import { ResourceConfig } from '../../parser/entities/configs/resource.js';
+import { Applyable } from './index.js';
+import { ResourceParameter } from './resource-parameter.js';
 
 export class Resource implements Applyable {
   readonly configClass: ConfigClass = ConfigClass.RESOURCE;

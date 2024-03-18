@@ -1,6 +1,6 @@
-import { RemoveMethods } from '../../../utils/types';
-import { ProjectConfig } from '../../parser/entities/configs/project';
-import { Applyable } from './index';
+import { RemoveMethods } from '../../../utils/types.js';
+import { ProjectConfig } from '../../parser/entities/configs/project.js';
+import { Applyable } from './index.js';
 
 export class CompiledProject {
   applyableGraph!: Map<string, Applyable>;

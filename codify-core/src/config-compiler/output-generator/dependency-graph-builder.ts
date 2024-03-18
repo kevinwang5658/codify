@@ -1,5 +1,5 @@
-import { CompiledProject } from './entities/compiled-project';
-import { ResourceParameter } from './entities/resource-parameter';
+import { CompiledProject } from './entities/compiled-project.js';
+import { ResourceParameter } from './entities/resource-parameter.js';
 
 export const DependencyGraphBuilder = {
 

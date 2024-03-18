@@ -1,8 +1,8 @@
-import { InternalError, JsonFileParseError, SyntaxError } from '../../../utils/errors';
-import { LoadedFile } from '../../loader/entities/file';
-import { ConfigBlock } from '../entities';
-import { FileParser } from '../index';
-import { JsonConfigBlockFactory } from './config-block-factory';
+import { InternalError, JsonFileParseError, SyntaxError } from '../../../utils/errors.js';
+import { LoadedFile } from '../../loader/entities/file.js';
+import { ConfigBlock } from '../entities/index.js';
+import { FileParser } from '../index.js';
+import { JsonConfigBlockFactory } from './config-block-factory.js';
 
 export class JsonFileParser implements FileParser {
 

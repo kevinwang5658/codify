@@ -1,4 +1,4 @@
-import { ConfigClass } from '../../language-definition';
+import { ConfigClass } from '../../language-definition.js';
 
 export interface ConfigBlock {
   configClass: ConfigClass;

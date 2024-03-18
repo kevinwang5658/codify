@@ -3,7 +3,7 @@ import { EventEmitter } from 'node:events';
 import { ChildProcess } from 'node:child_process';
 
 import { Readable } from 'stream';
-import { PluginIpcBridge } from './ipc-bridge';
+import { PluginIpcBridge } from './ipc-bridge.js';
 import { mock } from 'node:test';
 import { expect } from '@oclif/test';
 import * as chai from 'chai';
@@ -13,7 +13,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 describe('Plugin IPC Bridge tests', async () => {
 
   before(() => {
-    chai.use(chaiAsPromised);
+    chai.use(chaiAsPromised as any);
     chai.should();
   })
 

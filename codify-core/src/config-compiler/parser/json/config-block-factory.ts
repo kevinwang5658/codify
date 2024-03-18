@@ -1,9 +1,9 @@
-import { SyntaxError } from '../../../utils/errors';
-import { ConfigClass } from '../../language-definition';
-import { ConfigBlock } from '../entities';
-import { PluginConfig } from '../entities/configs/plugin';
-import { ProjectConfig } from '../entities/configs/project';
-import { ResourceConfig } from '../entities/configs/resource';
+import { SyntaxError } from '../../../utils/errors.js';
+import { ConfigClass } from '../../language-definition.js';
+import { PluginConfig } from '../entities/configs/plugin.js';
+import { ProjectConfig } from '../entities/configs/project.js';
+import { ResourceConfig } from '../entities/configs/resource.js';
+import { ConfigBlock } from '../entities/index.js';
 
 export const JsonConfigBlockFactory = {
 

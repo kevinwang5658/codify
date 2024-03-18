@@ -1,6 +1,6 @@
-import { RemoveMethods } from '../../../../utils/types'
-import { ConfigClass } from '../../../language-definition';
-import { ConfigBlock } from '../index';
+import { RemoveMethods } from '../../../../utils/types.js'
+import { ConfigClass } from '../../../language-definition.js';
+import { ConfigBlock } from '../index.js';
 
 export class PluginConfig implements ConfigBlock {
   configClass = ConfigClass.PLUGIN;

@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "Node16",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
@@ -11,6 +14,10 @@
     "src/**/*"
   ],
   "exclude": [
-    "src/**/*.test.ts"
-  ]
+    "src/**/*.test.ts",
+    "node_modules"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

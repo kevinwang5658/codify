@@ -1,4 +1,4 @@
-import { RemoveMethods } from '../../../utils/types';
+import { RemoveMethods } from '../../../utils/types.js';
 
 export class LoadedFile {
   contents!: string;

@@ -1,8 +1,8 @@
-import { CompiledProject } from '../config-compiler/output-generator/entities/compiled-project';
-import { ParsedProject } from '../config-compiler/parser/entities/parsed-project';
-import { ResourceDefinition } from './entities/definitions/resource';
-import { Plugin } from './entities/plugin';
-import { PluginResolver } from './resolver';
+import { CompiledProject } from '../config-compiler/output-generator/entities/compiled-project.js';
+import { ParsedProject } from '../config-compiler/parser/entities/parsed-project.js';
+import { ResourceDefinition } from './entities/definitions/resource.js';
+import { Plugin } from './entities/plugin.js';
+import { PluginResolver } from './resolver.js';
 
 type PluginName = string;
 
@@ -20,7 +20,7 @@ export class PluginCollection {
   }
 
   static async create(project: ParsedProject): Promise<PluginCollection> {
-    const pluginDefinitions = {
+    const pluginDefinitions: Record<string, string> = {
       ...DEFAULT_PLUGINS,
       ...project.projectConfig.plugins,
     };

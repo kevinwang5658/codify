@@ -1,7 +1,9 @@
-import { RemoveMethods } from '../../../../utils/types';
-import { validateNameString, validateTypeRecordStringUnknown, validateTypeString, } from '../../../../utils/validator';
-import { ConfigClass } from '../../../language-definition';
-import { ConfigBlock } from '../index';
+import { ResourceSchema } from 'codify-schemas';
+
+import { RemoveMethods } from '../../../../utils/types.js';
+import { ajv, } from '../../../../utils/validator.js';
+import { ConfigClass } from '../../../language-definition.js';
+import { ConfigBlock } from '../index.js';
 
 /** Resource JSON supported format
  * {
@@ -17,6 +19,8 @@ import { ConfigBlock } from '../index';
  *
  * We won't be able to validate the parameters until we get the resource definitions from the plugins
  */
+
+const validate = ajv.compile(ResourceSchema);
 
 export class ResourceConfig implements ConfigBlock {
   readonly configClass = ConfigClass.RESOURCE;
@@ -40,16 +44,8 @@ export class ResourceConfig implements ConfigBlock {
   }
 
   validateConfig(config: unknown): config is RemoveMethods<ResourceConfig> {
-    if (!validateTypeRecordStringUnknown(config)) {
-      throw new Error('Config is not an object');
-    }
-
-    if (!validateTypeString(config.type)) {
-      throw new Error('Config type is not specified');
-    }
-
-    if (config.name && !validateNameString(config.name)) {
-      throw new Error('Name must be of type string, start with a letter, and only contain a-z0-9_-');
+    if (!validate(config)) {
+      throw new Error(`Invalid project config: ${JSON.stringify(validate.errors, null, 2)}`)
     }
 
     return true;

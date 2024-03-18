@@ -1,5 +1,5 @@
-import { ConfigCompiler } from '../../config-compiler';
-import { PluginCollection } from '../../plugins/plugin-collection';
+import { ConfigCompiler } from '../../config-compiler/index.js';
+import { PluginCollection } from '../../plugins/plugin-collection.js';
 
 export const PlanOrchestrator = {
   async run(rootDirectory: string): Promise<string> {

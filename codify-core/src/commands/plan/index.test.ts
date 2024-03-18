@@ -29,7 +29,7 @@ describe('temp tests', async () => {
         }
       })
 
-      let sleep = async ms => new Promise(resolve => setTimeout(resolve, ms));
+      let sleep = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
       await sleep(5000)
 
       done()

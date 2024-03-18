@@ -1,15 +1,15 @@
-import { ResourceDefinitions } from '../plugins/entities/definitions/resource';
-import { InternalError } from '../utils/errors';
-import { ConfigClass } from './language-definition';
-import { ConfigLoader } from './loader';
-import { DependencyGraphBuilder } from './output-generator/dependency-graph-builder';
-import { CompiledProject } from './output-generator/entities/compiled-project';
-import { CompiledProjectTransformer } from './output-generator/transformer';
-import { FileParser } from './parser';
-import { ProjectConfig } from './parser/entities/configs/project';
-import { ParsedModule } from './parser/entities/parsed-module';
-import { ParsedProject } from './parser/entities/parsed-project';
-import { JsonFileParser } from './parser/json/file-parser';
+import { ResourceDefinitions } from '../plugins/entities/definitions/resource.js';
+import { InternalError } from '../utils/errors.js';
+import { ConfigClass } from './language-definition.js';
+import { ConfigLoader } from './loader/index.js';
+import { DependencyGraphBuilder } from './output-generator/dependency-graph-builder.js';
+import { CompiledProject } from './output-generator/entities/compiled-project.js';
+import { CompiledProjectTransformer } from './output-generator/transformer.js';
+import { ProjectConfig } from './parser/entities/configs/project.js';
+import { ParsedModule } from './parser/entities/parsed-module.js';
+import { ParsedProject } from './parser/entities/parsed-project.js';
+import { FileParser } from './parser/index.js';
+import { JsonFileParser } from './parser/json/file-parser.js';
 
 export class ConfigCompiler {
 
@@ -31,8 +31,8 @@ export class ConfigCompiler {
     const configBlocks = configBlocksResult.flat(1);
 
     const parsedProjectConfigs = configBlocks.filter((u) => u.configClass === ConfigClass.PROJECT);
-    if (parsedProjectConfigs.length !== 1) {
-      throw new Error('One one project config can be specified');
+    if (parsedProjectConfigs.length > 1) {
+      throw new Error('One or zero project config can be specified');
     }
 
     const projectConfig = parsedProjectConfigs[0] as ProjectConfig;

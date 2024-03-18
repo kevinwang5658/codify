@@ -1,16 +1,9 @@
-import { RemoveMethods } from '../../../../utils/types';
-import {
-  validateAllowedObjectKeys,
-  validateNameString,
-  validateSemver,
-  validateStringEq,
-  validateTypeRecordStringString,
-  validateTypeRecordStringUnknown,
-  validateTypeString,
-  validateUrl
-} from '../../../../utils/validator';
-import { ConfigClass } from '../../../language-definition';
-import { ConfigBlock } from '../index';
+import { ProjectSchema } from 'codify-schemas';
+
+import { RemoveMethods } from '../../../../utils/types.js';
+import { ajv } from '../../../../utils/validator.js';
+import { ConfigClass } from '../../../language-definition.js';
+import { ConfigBlock } from '../index.js';
 
 /** Project JSON supported format
  * {
@@ -23,11 +16,7 @@ import { ConfigBlock } from '../index';
  * }
  */
 
-const ALLOWED_KEYS = [
-  'type',
-  'name',
-  'plugins'
-]
+const validate = ajv.compile(ProjectSchema);
 
 export class ProjectConfig implements ConfigBlock {
   configClass = ConfigClass.PROJECT;
@@ -47,36 +36,8 @@ export class ProjectConfig implements ConfigBlock {
   }
 
   validateConfig(config: unknown): config is RemoveMethods<ProjectConfig> {
-    if (!validateTypeRecordStringUnknown(config)) {
-      throw new Error('Config is not an object');
-    }
-
-    if (!validateAllowedObjectKeys(config, ALLOWED_KEYS)) {
-      throw new Error('Config has invalid keys');
-    }
-
-    if (!validateStringEq(config.type, 'project')) {
-      throw new Error('Config is not of type project');
-    }
-
-    if (config.name && !validateNameString(config.name)) {
-      throw new Error('Name must be of type string, start with a letter, and only contain [a-z][0-9]_-');
-    }
-
-    if (config.plugins && !validateTypeRecordStringString) {
-      throw new Error('Plugin is not of type Record<string, string>');
-    }
-
-    if (config.plugins && !Object.keys(config.plugins).map((k) =>
-      validateUrl(k) || validateTypeString(k),
-    ).every(Boolean)) {
-      throw new Error('Plugins must be either package name or url');
-    }
-
-    if (config.plugins && !Object.values(config.plugins).map((v) =>
-      validateSemver(v)
-    ).every(Boolean)) {
-      throw new Error('Plugin versions must be proper semvers');
+    if (!validate(config)) {
+      throw new Error(`Invalid project config: ${JSON.stringify(validate.errors, null, 2)}`)
     }
 
     return true;

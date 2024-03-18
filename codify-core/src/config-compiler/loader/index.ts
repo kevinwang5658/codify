@@ -1,13 +1,14 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
-import { ConfigCompiler } from '../index';
-import { LoadedFile } from './entities/file';
-import { LoadedModule } from './entities/module';
-import { LoadedProject } from './entities/project';
+import { ConfigCompiler } from '../index.js';
+import { LoadedFile } from './entities/file.js';
+import { LoadedModule } from './entities/module.js';
+import { LoadedProject } from './entities/project.js';
 
 /**
  * This class loads relevant files in the project directory into memory so that they can be compiled
+ * TODO: Rename this to reader. A loader has a different meaning for compilers
  */
 export class ConfigLoader {
 

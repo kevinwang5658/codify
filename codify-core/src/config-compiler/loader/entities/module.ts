@@ -1,5 +1,5 @@
-import { RemoveMethods } from '../../../utils/types';
-import { LoadedFile } from './file';
+import { RemoveMethods } from '../../../utils/types.js';
+import { LoadedFile } from './file.js';
 
 export class LoadedModule {
   directory!: string;

@@ -1,6 +1,6 @@
-import { Applyable } from '../../config-compiler/output-generator/entities';
-import { PluginIpcBridge } from '../ipc-bridge';
-import { PluginData } from './plugin-data';
+import { Applyable } from '../../config-compiler/output-generator/entities/index.js';
+import { PluginIpcBridge } from '../ipc-bridge.js';
+import { PluginData } from './plugin-data.js';
 
 export class Plugin {
 

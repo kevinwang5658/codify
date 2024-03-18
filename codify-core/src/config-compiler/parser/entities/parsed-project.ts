@@ -1,6 +1,6 @@
-import { RemoveMethods } from '../../../utils/types';
-import { ProjectConfig } from './configs/project';
-import { ParsedModule } from './parsed-module';
+import { RemoveMethods } from '../../../utils/types.js';
+import { ProjectConfig } from './configs/project.js';
+import { ParsedModule } from './parsed-module.js';
 
 export class ParsedProject {
   coreModule!: ParsedModule;

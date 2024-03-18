@@ -1,8 +1,8 @@
 import { ChildProcess, fork } from 'node:child_process';
 
-import { config } from '../project-configs';
-import { validateTypeRecordStringUnknown } from '../utils/validator';
-import { PluginMessage } from './entities/message';
+import { config } from '../project-configs/index.js';
+import { validateTypeRecordStringUnknown } from '../utils/validator.js';
+import { PluginMessage } from './entities/message.js';
 
 type Resolve = (value: unknown) => void;
 type Reject = (reason?: Error) => void;

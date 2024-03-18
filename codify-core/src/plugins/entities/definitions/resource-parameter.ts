@@ -1,12 +1,12 @@
-import { ResourceParameterType } from '../../../config-compiler/language-definition';
-import { ResourceParameter } from '../../../config-compiler/output-generator/entities/resource-parameter';
-import { RemoveMethods } from '../../../utils/types';
+import { ResourceParameterType } from '../../../config-compiler/language-definition.js';
+import { ResourceParameter } from '../../../config-compiler/output-generator/entities/resource-parameter.js';
+import { RemoveMethods } from '../../../utils/types.js';
 import {
   validateAllowedObjectKeys,
   validateTypeNumber,
   validateTypeRecordStringString,
   validateTypeResourceParameterType
-} from '../../../utils/validator';
+} from '../../../utils/validator.js';
 
 /**
  * Resource parameter defintiion can be either a resource parameter type or an object with additional definitions.

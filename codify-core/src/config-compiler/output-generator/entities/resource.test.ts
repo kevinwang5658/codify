@@ -1,9 +1,9 @@
-import { ResourceConfig } from '../../parser/entities/configs/resource';
-import { ResourceDefinition } from '../../../plugins/entities/definitions/resource';
-import { ResourceParameterDefinition } from '../../../plugins/entities/definitions/resource-parameter';
-import { ResourceParameterType } from '../../language-definition';
+import { ResourceConfig } from '../../parser/entities/configs/resource.js';
+import { ResourceDefinition } from '../../../plugins/entities/definitions/resource.js';
+import { ResourceParameterDefinition } from '../../../plugins/entities/definitions/resource-parameter.js';
+import { ResourceParameterType } from '../../language-definition.js';
 import { expect } from '@oclif/test';
-import { Resource } from './resource';
+import { Resource } from './resource.js';
 
 describe('Resource definition validation', () => {
 

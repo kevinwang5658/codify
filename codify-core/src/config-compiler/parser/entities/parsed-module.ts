@@ -1,5 +1,5 @@
-import { RemoveMethods } from '../../../utils/types';
-import { ConfigBlock } from './index';
+import { RemoveMethods } from '../../../utils/types.js';
+import { ConfigBlock } from './index.js';
 
 export class ParsedModule {
   configBlocks!: ConfigBlock[];
