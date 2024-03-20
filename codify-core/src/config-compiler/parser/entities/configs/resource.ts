@@ -1,9 +1,8 @@
-import { ResourceSchema } from 'codify-schemas';
-
 import { RemoveMethods } from '../../../../utils/types.js';
-import { ajv, } from '../../../../utils/validator.js';
 import { ConfigClass } from '../../../language-definition.js';
 import { ConfigBlock } from '../index.js';
+import { ResourceSchema } from 'codify-schemas';
+import { ajv } from '../../../../utils/ajv.js';
 
 /** Resource JSON supported format
  * {

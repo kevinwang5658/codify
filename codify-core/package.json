@@ -8,7 +8,7 @@
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^3.8.4",
     "semver": "^7.5.4",
-    "codify-schemas": "1.0.24",
+    "codify-schemas": "1.0.25",
     "ajv": "^8.12.0"
   },
   "description": "Codify is a set up as code tool for developers",
@@ -77,7 +77,7 @@
     "prepack": "npm run build && oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme && git add README.md",
-    "start:dev": "node ./bin/run.js"
+    "start:dev": "tsc && node ./bin/run.js"
   },
   "version": "0.0.0",
   "bugs": "https://github.com/kevinwang5658/codify/issues",

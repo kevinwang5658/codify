@@ -1,7 +1,9 @@
+import { ConfigCompiler } from '../../config-compiler/index.js';
+
 export const PlanOrchestrator = {
   async run(rootDirectory: string): Promise<string> {
-    // const parsedProject = await ConfigCompiler.parseProject(rootDirectory);
-    //
+    const parsedProject = await ConfigCompiler.parseProject(rootDirectory);
+
     // const pluginCollection = await PluginCollection.create(parsedProject);
     // const definitions = await pluginCollection.getResourceDefinitions();
     //

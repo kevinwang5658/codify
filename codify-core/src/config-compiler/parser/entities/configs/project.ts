@@ -1,9 +1,8 @@
-import { ProjectSchema } from 'codify-schemas';
-
 import { RemoveMethods } from '../../../../utils/types.js';
-import { ajv } from '../../../../utils/validator.js';
 import { ConfigClass } from '../../../language-definition.js';
 import { ConfigBlock } from '../index.js';
+import { ajv } from '../../../../utils/ajv.js';
+import { ProjectSchema } from 'codify-schemas';
 
 /** Project JSON supported format
  * {
