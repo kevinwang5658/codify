@@ -4,28 +4,28 @@ import { PluginData } from './plugin-data.js';
 
 export class Plugin {
 
-  ipcBridge: PluginIpcBridge;
+  ipcBridge?: PluginIpcBridge;
 
   // Separate out data so that the validation logic is testable.
   data: PluginData;
 
-  constructor(data: PluginData, ipcBridge: PluginIpcBridge) {
-    this.ipcBridge = ipcBridge;
+  constructor(data: PluginData) {
     this.data = data;
   }
 
-  static async create(directory: string, name: string, ipcBridge?: PluginIpcBridge): Promise<Plugin> {
-    ipcBridge = ipcBridge ?? await PluginIpcBridge.create(directory, name);
-    const resourceDefinitions = await ipcBridge.sendMessageForResult({ cmd: 'getResourceDefinitions' });
+  async initialize(ipcBridge?: PluginIpcBridge): Promise<unknown> {
+    ipcBridge = ipcBridge ?? await PluginIpcBridge.create(this.data.directory);
+    const resourceList = await ipcBridge.sendMessageForResult({ cmd: 'initialize' });
 
-    return new Plugin(PluginData.create(directory, name, resourceDefinitions), ipcBridge);
+    this.data.resourceDefinitions = resourceList as any;
+    return resourceList;
   }
 
   async generateResourcePlan(applyable: Applyable): Promise<unknown> {
-    return this.ipcBridge.sendMessageForResult({ cmd: 'generateResourcePlan', data: applyable.toJson() });
+    return this.ipcBridge!.sendMessageForResult({ cmd: 'generateResourcePlan', data: applyable.toJson() });
   }
 
   destroy() {
-    this.ipcBridge.killPlugin();
+    this.ipcBridge!.killPlugin();
   }
 }

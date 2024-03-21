@@ -1,6 +1,4 @@
 import { ChildProcess, fork } from 'node:child_process';
-
-import { config } from '../project-configs/index.js';
 import { validateTypeRecordStringUnknown } from '../utils/validator.js';
 import { PluginMessage } from './entities/message.js';
 
@@ -16,9 +14,9 @@ export class PluginIpcBridge {
     this.process = process;
   }
 
-  static async create(directory: string, name: string): Promise<PluginIpcBridge> {
-    const process = await fork(
-      directory + '/' + name + config.defaultPluginEntryPoint,
+  static async create(jsFileDir: string): Promise<PluginIpcBridge> {
+    const process = fork(
+      jsFileDir,
       [],
       { execArgv: ['-r', 'ts-node/register'], silent: true },
     );

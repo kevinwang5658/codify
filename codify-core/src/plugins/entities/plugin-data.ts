@@ -9,7 +9,7 @@ export class PluginData {
   // Plugin names should be globally unique
   name!: string;
   directory!: string;
-  resourceDefinitions!: Map<ResourceName, ResourceDefinition>;
+  resourceDefinitions?: Map<ResourceName, ResourceDefinition>;
 
   constructor(props: RemoveMethods<PluginData>) {
     Object.assign(this, props);

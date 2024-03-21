@@ -7,11 +7,11 @@ import { PluginResolver } from './resolver.js';
 type PluginName = string;
 
 const DEFAULT_PLUGINS = {
-  'default:homebrew': 'latest',
+  'default': 'latest',
   // 'default:node': 'latest',
 }
 
-export class PluginCollection {
+export class PluginManager {
 
   private plugins: Map<PluginName, Plugin>
 
@@ -19,7 +19,7 @@ export class PluginCollection {
     this.plugins = plugins;
   }
 
-  static async create(project: ParsedProject): Promise<PluginCollection> {
+  static async initialize(project: ParsedProject): Promise<PluginManager> {
     const pluginDefinitions: Record<string, string> = {
       ...DEFAULT_PLUGINS,
       ...project.projectConfig.plugins,
@@ -29,7 +29,11 @@ export class PluginCollection {
       PluginResolver.resolve(name, version)
     ));
 
-    return new PluginCollection(new Map(plugins.map((plugin) => [plugin.data.name, plugin])))
+    const definitions = await Promise.all(
+      plugins.map((p) => p.initialize())
+    );
+
+    return new PluginManager(new Map(plugins.map((plugin) => [plugin.data.name, plugin])))
   }
 
   getResourceDefinitions(): Map<string, ResourceDefinition> {
