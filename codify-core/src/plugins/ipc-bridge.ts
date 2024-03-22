@@ -1,6 +1,9 @@
 import { ChildProcess, fork } from 'node:child_process';
-import { validateTypeRecordStringUnknown } from '../utils/validator.js';
 import { PluginMessage } from './entities/message.js';
+import { IpcMessage, IpcMessageSchema } from 'codify-schemas';
+import { ajv } from '../utils/ajv.js';
+
+const ipcMessageValidator = ajv.compile(IpcMessageSchema);
 
 type Resolve = (value: unknown) => void;
 type Reject = (reason?: Error) => void;
@@ -65,7 +68,7 @@ class SendMessageForResultHandler {
   messageListener = (incomingMessage: unknown) => {
     console.log(incomingMessage);
 
-    if (!validateTypeRecordStringUnknown(incomingMessage)) {
+    if (!this.validateIpcMessage(incomingMessage)) {
       return this.reject(new Error(`Bad message from plugin. ${JSON.stringify(incomingMessage, null, 2)}`))
     }
 
@@ -97,5 +100,9 @@ class SendMessageForResultHandler {
   private setResultTimeout = () => setTimeout(() => {
     this.reject(new Error(`Plugin did not respond in 10s to call: ${this.messageToSend.cmd}`))
   }, 10_000);
+
+  private validateIpcMessage(response: unknown): response is IpcMessage {
+    return ipcMessageValidator(response);
+  }
 }
 

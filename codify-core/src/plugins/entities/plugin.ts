@@ -1,24 +1,36 @@
 import { Applyable } from '../../config-compiler/output-generator/entities/index.js';
 import { PluginIpcBridge } from '../ipc-bridge.js';
-import { PluginData } from './plugin-data.js';
+import { InitializeResponseData, InitializeResponseDataSchema } from 'codify-schemas';
+import { ajv } from '../../utils/ajv.js';
+
+const initializeResponseValidator = ajv.compile(InitializeResponseDataSchema);
 
 export class Plugin {
 
   ipcBridge?: PluginIpcBridge;
 
-  // Separate out data so that the validation logic is testable.
-  data: PluginData;
+  name: string;
+  path: string;
+  resourceDependenciesMap = new Map<string, string[]>()
 
-  constructor(data: PluginData) {
-    this.data = data;
+  constructor(name: string, path: string) {
+    this.name = name;
+    this.path = path;
   }
 
-  async initialize(ipcBridge?: PluginIpcBridge): Promise<unknown> {
-    ipcBridge = ipcBridge ?? await PluginIpcBridge.create(this.data.directory);
-    const resourceList = await ipcBridge.sendMessageForResult({ cmd: 'initialize' });
+  async initialize(ipcBridge?: PluginIpcBridge): Promise<InitializeResponseData> {
+    ipcBridge = ipcBridge ?? await PluginIpcBridge.create(this.path);
+    const initializeResponse = await ipcBridge.sendMessageForResult({ cmd: 'initialize' });
 
-    this.data.resourceDefinitions = resourceList as any;
-    return resourceList;
+    if (!this.validateInitializeResponse(initializeResponse)) {
+      throw new Error();
+    }
+
+    initializeResponse.resourceDefinitions.forEach((d) => {
+      this.resourceDependenciesMap.set(d.type, d.dependencies)
+    });
+
+    return initializeResponse;
   }
 
   async generateResourcePlan(applyable: Applyable): Promise<unknown> {
@@ -27,5 +39,13 @@ export class Plugin {
 
   destroy() {
     this.ipcBridge!.killPlugin();
+  }
+
+  private validateInitializeResponse(response: unknown): response is InitializeResponseData {
+    if (initializeResponseValidator(response)) {
+      throw new Error(`Invalid initialize response from plugin: ${this.name}. Error: ${initializeResponseValidator.errors}`)
+    }
+
+    return true;
   }
 }

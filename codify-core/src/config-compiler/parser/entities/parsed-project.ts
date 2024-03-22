@@ -14,4 +14,11 @@ export class ParsedProject {
   getModuleTree(): ParsedModule {
     return this.coreModule;
   }
+
+  validateWithResourceMap(resourceMap: Map<string, string[]>) {
+    const invalidConfigs = this.coreModule.configBlocks.filter((c) => resourceMap.get(c.type));
+    if (invalidConfigs.length > 0) {
+      throw new Error(`Unknown types specified: ${JSON.stringify(invalidConfigs, null, 2)}`);
+    }
+  }
 }
