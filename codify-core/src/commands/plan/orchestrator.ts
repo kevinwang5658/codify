@@ -1,19 +1,19 @@
 import { ConfigCompiler } from '../../config-compiler/index.js';
+import { DependencyGraphBuilder } from '../../dependency-graph-builder/dependency-graph-builder.js';
 import { PluginCollection } from '../../plugins/plugin-collection.js';
 
 export const PlanOrchestrator = {
   async run(rootDirectory: string): Promise<string> {
-    const parsedProject = await ConfigCompiler.parseProject(rootDirectory);
+    const project = await ConfigCompiler.parseProject(rootDirectory);
 
     const pluginCollection = new PluginCollection();
-    const resourceMap = await pluginCollection.initialize(parsedProject);
+    const resourceMap = await pluginCollection.initialize(project);
+    project.validateWithResourceMap(resourceMap);
 
-    parsedProject.validateWithResourceMap(resourceMap);
+    await pluginCollection.validate(project);
+    const depedencyGraph = await DependencyGraphBuilder.buildDependencyGraph(project);
 
-
-    // const compiledProject = await ConfigCompiler.compileProject(parsedProject, definitions);
-    // console.log(compiledProject);
-    // const plan = await pluginCollection.getPlan(compiledProject);
+    const plan = await pluginCollection.getPlan(project);
     //
     // await pluginCollection.destroy();
     // return JSON.stringify(plan, null, 2);

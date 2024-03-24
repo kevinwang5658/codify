@@ -1,13 +1,9 @@
-import { ResourceDefinitions } from '../plugins/entities/definitions/resource.js';
+import { Project } from '../entities/project.js';
+import { ProjectConfig } from '../entities/project-config.js';
+import { ResourceConfig } from '../entities/resource-config.js';
 import { InternalError } from '../utils/errors.js';
 import { ConfigClass } from './language-definition.js';
 import { ConfigLoader } from './loader/index.js';
-import { DependencyGraphBuilder } from './output-generator/dependency-graph-builder.js';
-import { CompiledProject } from './output-generator/entities/compiled-project.js';
-import { CompiledProjectTransformer } from './output-generator/transformer.js';
-import { ProjectConfig } from './parser/entities/configs/project.js';
-import { ParsedModule } from './parser/entities/parsed-module.js';
-import { ParsedProject } from './parser/entities/parsed-project.js';
 import { FileParser } from './parser/index.js';
 import { JsonFileParser } from './parser/json/file-parser.js';
 
@@ -17,7 +13,7 @@ export class ConfigCompiler {
     'json': new JsonFileParser(),
   }
 
-  static async parseProject(directory: string): Promise<ParsedProject> {
+  static async parseProject(directory: string): Promise<Project> {
     const loadedProject = await (new ConfigLoader().loadProject(directory));
 
     const configBlocksResult = await Promise.all(loadedProject.coreModule.files.map((file) => {
@@ -35,18 +31,10 @@ export class ConfigCompiler {
       throw new Error('One or zero project config can be specified');
     }
 
-    const projectConfig = parsedProjectConfigs[0] as ProjectConfig;
-    return new ParsedProject({
-      coreModule: new ParsedModule({
-        configBlocks: configBlocks.filter((u) => u.configClass !== ConfigClass.PROJECT),
-      }),
+    const projectConfig = parsedProjectConfigs[0] as unknown as ProjectConfig;
+    return new Project({
       projectConfig,
+      resourceConfigs: configBlocks.filter((u) => u.configClass !== ConfigClass.PROJECT) as ResourceConfig[],
     })
-  }
-
-  static compileProject(parsedProject: ParsedProject, definitions: ResourceDefinitions): CompiledProject {
-    const compiledProject = CompiledProjectTransformer.validateAndTransform(parsedProject, definitions);
-    DependencyGraphBuilder.buildDependencyGraph(compiledProject);
-    return compiledProject;
   }
 }

@@ -1,6 +1,6 @@
 //import { ProjectConfig } from './project.js';
 import { describe, expect, it } from 'vitest';
-import { ResourceConfig } from './resource.js';
+import { ResourceConfig } from './resource-config';
 
 describe('Parser: project entity tests', () => {
   it('parses an empty project', () => {

@@ -1,8 +1,9 @@
-import { RemoveMethods } from '../../../../utils/types.js';
-import { ConfigClass } from '../../../language-definition.js';
-import { ConfigBlock } from '../index.js';
 import { ResourceSchema } from 'codify-schemas';
-import { ajv } from '../../../../utils/ajv.js';
+
+import { ConfigClass } from '../config-compiler/language-definition.js';
+import { ajv } from '../utils/ajv.js';
+import { RemoveMethods } from '../utils/types.js';
+import { ConfigBlock } from './index.js';
 
 /** Resource JSON supported format
  * {
@@ -24,14 +25,16 @@ const validate = ajv.compile(ResourceSchema);
 export class ResourceConfig implements ConfigBlock {
   readonly configClass = ConfigClass.RESOURCE;
 
+  raw: Record<string, unknown>;
   type: string;
   name?: string;
-  pluginName?: string;
   parameters: Record<string, unknown>;
 
   constructor(config: unknown) {
     if (this.validateConfig(config)) {
       const { name, type, ...parameters } = config;
+
+      this.raw = config;
       this.type = type;
       this.name = name;
       this.parameters = parameters ?? {};

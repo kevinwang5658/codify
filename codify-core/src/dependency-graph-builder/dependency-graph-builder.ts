@@ -1,20 +1,19 @@
-import { CompiledProject } from './entities/compiled-project.js';
-import { ResourceParameter } from './entities/resource-parameter.js';
+import { Project } from '../entities/project.js';
 
 export const DependencyGraphBuilder = {
 
   /**
    * @return a dependency graph in the form of an adjacency list
    */
-  buildDependencyGraph(compiledProject: CompiledProject) {
-    const { applyableGraph } = compiledProject;
+  buildDependencyGraph(project: Project) {
+    const { resourceConfigs } = project;
 
     const resourceReferenceRegex = /\${([\w.]+)}/g
 
     // TODO: Support named resources in the future
 
-    for (const applyable of applyableGraph.values()) {
-      const referenceParameters = findParametersWithReferences(applyable.parameters)
+    for (const config of resourceConfigs) {
+      const referenceParameters = findParametersWithReferences(config.parameters)
 
       for (const [name, match] of referenceParameters) {
         const parts = match.split('.');
@@ -40,11 +39,11 @@ export const DependencyGraphBuilder = {
 
         // TODO: Add recursive check for parameters of type parameter
 
-        applyable.dependencies.push(referencedResource);
+        config.dependencies.push(referencedResource);
 
         // Substitute with actual value
-        applyable.parameters.set(name,
-          String(applyable.parameters.get(name)).replace(`\${${match}}`, String(referencedParameter))
+        config.parameters.set(name,
+          String(config.parameters.get(name)).replace(`\${${match}}`, String(referencedParameter))
         );
       }
     }

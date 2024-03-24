@@ -1,8 +1,9 @@
-import { RemoveMethods } from '../../../../utils/types.js';
-import { ConfigClass } from '../../../language-definition.js';
-import { ConfigBlock } from '../index.js';
-import { ajv } from '../../../../utils/ajv.js';
 import { ProjectSchema } from 'codify-schemas';
+
+import { ConfigClass } from '../config-compiler/language-definition.js';
+import { ajv } from '../utils/ajv.js';
+import { RemoveMethods } from '../utils/types.js';
+import { ConfigBlock } from './index.js';
 
 /** Project JSON supported format
  * {
@@ -20,11 +21,13 @@ const validate = ajv.compile(ProjectSchema);
 export class ProjectConfig implements ConfigBlock {
   configClass = ConfigClass.PROJECT;
 
+  type: string;
   name?: string;
   plugins?: Record<string, string>;
 
   constructor(config: unknown) {
     if (this.validateConfig(config)) {
+      this.type = config.type; // type is always project
       this.name = config.name;
       this.plugins = config.plugins;
 
